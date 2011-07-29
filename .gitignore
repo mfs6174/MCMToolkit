@@ -1,0 +1,11 @@
+*.in
+*.out
+*~
+#*
+*.data
+*.gcov
+*.gcda
+*.gcno
+*.o
+
+
