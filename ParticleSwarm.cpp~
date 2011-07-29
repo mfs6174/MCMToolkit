@@ -1,0 +1,28 @@
+/*
+ID: mfs6174
+PROG: ParticleSwarm
+LANG: C++
+*/
+
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<sstream>
+#include<cstring>
+#include<algorithm>
+#include<map>
+#include<vector>
+#include<iomanip>
+using namespace std;
+ifstream inf("ti.in");
+//ofstream ouf("ti.out");
+//freopen("ti.i","r",stdin);
+const int maxlongint=2147483647;
+const int Wei_f=3;
+const int Wei_i=0;
+const int C1=2,C2=2;
+const int N=100;
+const double W=1.0;
+int ixia[Wei_i+5],ishang[Wei_i+5];
+double fxia[Wei_f+5],fshang[Wei_f+5];
+
