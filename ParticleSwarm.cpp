@@ -25,6 +25,7 @@ const int N=100;
 const double W=1.0;
 const int Maxround=1000;
 const unsigned seed=1331;
+const int randmax=1000;
 
 int imin[Wei_i+5],imax[Wei_i+5],vmaxi[Wei_i+5];
 double fmin[Wei_f+5],fmax[Wei_f+5],vmaxf[Wei_f+5];
@@ -33,6 +34,11 @@ int b[10];
 
 int i,j,k,t,n,m,tt,maxround;
 double mm,mm2;
+
+double frand()
+{
+  return rand()%randmax/((double)randmax);
+}
 
 Class P
 {
@@ -91,9 +97,9 @@ Class P
   {
     int i;
     for (i=1;i<=Wei_f;i++)
-      vf[i]=w*vf[i]+C1*rand()*(mf[i]-pf[i])+C2*rand()*(h.pf[i]-pf[i]);
+      vf[i]=w*vf[i]+C1*frand()*(mf[i]-pf[i])+C2*frand()*(h.pf[i]-pf[i]);
     for (i=1;i<=Wei_i;i++)
-      vi[i]=(int)(w*vi[i]+C1*rand()*(mi[i]-pi[i])+C2*rand()*(h.pi[i]-pi[i]));
+      vi[i]=(int)(w*vi[i]+C1*frand()*(mi[i]-pi[i])+C2*frand()*(h.pi[i]-pi[i]));
     chav();
   }
   
