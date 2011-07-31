@@ -40,7 +40,7 @@ double frand()
   return rand()%randmax/((double)randmax);
 }
 
-Class P
+class P
 {
  public:
   double pf[Wei_f+5],vf[Wei_f+5],mf[Wei_f+5];//位置，速度，个体最佳位置
@@ -97,9 +97,9 @@ Class P
   {
     int i;
     for (i=1;i<=Wei_f;i++)
-      vf[i]=w*vf[i]+C1*frand()*(mf[i]-pf[i])+C2*frand()*(h.pf[i]-pf[i]);
+      vf[i]=W*vf[i]+C1*frand()*(mf[i]-pf[i])+C2*frand()*(h.pf[i]-pf[i]);
     for (i=1;i<=Wei_i;i++)
-      vi[i]=(int)(w*vi[i]+C1*frand()*(mi[i]-pi[i])+C2*frand()*(h.pi[i]-pi[i]));
+      vi[i]=(int)(W*vi[i]+C1*frand()*(mi[i]-pi[i])+C2*frand()*(h.pi[i]-pi[i]));
     chav();
   }
   
@@ -180,12 +180,12 @@ int main()
       shi[zz]=zhu[tt];
     }
     else
-      if (z-1>=0)
+      if (zz-1>=0)
         shi[zz]=shi[zz-1];
-    for (i=1;i<=N;i+=)
+    for (i=1;i<=N;i++)
     {
       zhu[i].tiaosu(shi[zz]);
-      zhu[i],fei();
+      zhu[i].fei();
     }
   }
   for (i=1;i<=N;i++)
@@ -196,7 +196,7 @@ int main()
       shi[zz]=zhu[tt];
     }
     else
-      if (z-1>=0)
+      if (zz-1>=0)
         shi[zz]=shi[zz-1];
   cout<<mm<<endl;
   shi[zz].dayin();
