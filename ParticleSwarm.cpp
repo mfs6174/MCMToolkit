@@ -10,9 +10,10 @@ LANG: C++
 #include<sstream>
 #include<cstring>
 #include<algorithm>
-#include<map>
-#include<vector>
 #include<iomanip>
+#include<ctime>
+#include<cstdlib>
+
 using namespace std;
 ifstream inf("ti.in");
 //ofstream ouf("ti.out");
@@ -22,30 +23,62 @@ const int Wei_i=0;
 const int C1=2,C2=2;
 const int N=100;
 const double W=1.0;
-int seed=1331;
+const int Maxround=1000;
+const unsigned seed=1331;
+
 int imin[Wei_i+5],imax[Wei_i+5],vmaxi[Wei_i+5];
 double fmin[Wei_f+5],fmax[Wei_f+5],vmaxf[Wei_f+5];
-double a[5];
-int b[5];
+double a[10];
+int b[10];
+
+int i,j,k,t,n,m,tt,maxround;
+double mm,mm2;
 
 Class P
 {
  public:
-  double pf[Wei_f+5],vf[Wei_f+5],mf[Wei_f+5];
+  double pf[Wei_f+5],vf[Wei_f+5],mf[Wei_f+5];//位置，速度，个体最佳位置
   int pi[Wei_i+5],vi[Wei_i+5],mi[Wei_i+5];
-  double pm,pp;
-  int p;
+  double pm,pp;//个体最佳适应度，当前适应度
+  int p;//粒子编号
+
+  void chapf(int x)
+  {
+    if (pf[x]<fmin[x])
+      pf[x]=fmin[x];
+    if (pf[x]>fmax[x])
+      pf[x]=fmax[x];
+  }
+
+  void chapi(int x)
+  {
+    if (pi[x]<imin[x])
+      pi[x]=imin[x];
+    if (pi[x]>imax[x])
+      pi[x]=imax[x];
+  }
+
+  void chav()
+  {
+    int i;
+    for (i=1;i<=Wei_f;i++)
+      if (vf[i]>vmaxf[i])
+        vf[i]=vmaxf[i];
+    for (i=1;i<=Wei_i;i++)
+      if (vi[i]>vmaxi[i])
+        vi[i]=vmaxi[i];
+  }
+  
   void suan()
   {
     int i;
     pp=0;
+    //这里应当计算出pp
     if (pp>pm)
     {
       pm=pp;
-      for (i=1;i<=Wei_f;i++)
-        mf[i]=pf[i];
-      for (i=1;i<=Wei_i;i++)
-        mi[i]=mi[i];
+      memcpy(mf,pf,sizeof(pf));
+      memcpy(mi,pi,sizeof(pi));
     }
     if (pm>mm)
     {
@@ -53,10 +86,18 @@ Class P
       tt=p;
     }
   }
-  void tiaosu(const P &hao)
+  
+  void tiaosu(const P &h)
   {
+    int i;
+    for (i=1;i<=Wei_f;i++)
+      vf[i]=w*vf[i]+C1*rand()*(mf[i]-pf[i])+C2*rand()*(h.pf[i]-pf[i]);
+    for (i=1;i<=Wei_i;i++)
+      vi[i]=(int)(w*vi[i]+C1*rand()*(mi[i]-pi[i])+C2*rand()*(h.pi[i]-pi[i]));
+    chav();
   }
-  void fei(int &tt)
+  
+  void fei()
   {
     int i;
     for (i=1;i<=Wei_f;i++)
@@ -67,16 +108,92 @@ Class P
     for (i=1;i<=Wei_i;i++)
     {
       pi[i]+=vi[i];
-      chavf(i);
+      chapi(i);
     }
   }
+
+  void dayin()
+  {
+    int i;
+    for (i=1;i<=Wei_f;i++)
+      cout<<pf[i]<<"   ";
+    cout<<endl;
+    for (i=1;i<=Wei_i;i++)
+      cout<<pi[i]<<"   ";
+    cout<<endl;
+  }
 };
-P zhu[N];
-int i,j,k,t,n,m,tt,maxround;
-double mm;
+P zhu[N],shi[Maxround];
+int zz;
+
+void read()
+{
+  cin>>maxround;
+  int i,n,m;
+  for (i=1;i<=Wei_f;i++)
+    cin>>fmin[i];
+  for (i=1;i<=Wei_f;i++)
+    cin>>fmax[i];
+  for (i=1;i<=Wei_i;i++)
+    cin>>imin[i];
+  for (i=1;i<=Wei_i;i++)
+    cin>>imax[i];
+  cin>>n;
+  for (i=1;i<=n;i++)
+    cin>>a[i];
+  cin>>m;
+  for (i=1;i<=m;i++)
+    cin>>b[i];
+}
+
+void init()
+{
+  mm=maxlongint;
+  int i;
+  srand(seed);
+  //srand((unsigned)time(NULL));
+  for (i=1;i<=N;i++)
+  {
+    zhu[i].rand();
+    zhu[i].pm=maxlongint;
+    zhu[i].p=i;
+  }
+}
 
 int main()
 {
+  read();
+  init();
+  for (zz=0;zz<=maxround;zz++)
+  {
+    for (i=1;i<=N;i++)
+      zhu[i].suan();
+    if (mm!=mm2)
+    {
+      mm2=mm;
+      shi[zz]=zhu[tt];
+    }
+    else
+      if (z-1>=0)
+        shi[zz]=shi[zz-1];
+    for (i=1;i<=N;i+=)
+    {
+      zhu[i].tiaosu(shi[zz]);
+      zhu[i],fei();
+    }
+  }
+  for (i=1;i<=N;i++)
+    zhu[i].suan();
+  if (mm!=mm2)
+  {
+      mm2=mm;
+      shi[zz]=zhu[tt];
+    }
+    else
+      if (z-1>=0)
+        shi[zz]=shi[zz-1];
+  cout<<mm<<endl;
+  shi[zz].dayin();
   return 0;
 }
 
