@@ -26,6 +26,7 @@ const double W=1.0;
 const int Maxround=1000;
 const unsigned seed=1331;
 const int randmax=1000;
+const double Vl=0.035;
 
 int imin[Wei_i+5],imax[Wei_i+5],vmaxi[Wei_i+5];
 double fmin[Wei_f+5],fmax[Wei_f+5],vmaxf[Wei_f+5];
@@ -48,7 +49,20 @@ class P
   double pm,pp;//个体最佳适应度，当前适应度
   int p;//粒子编号
 
-  void chapf(int x)
+  void rand()
+  {
+    int i;
+    for (i=1;i<=Wei_f;i++)
+      vf[i]=(vmaxf[i]-vmaxf[i]/2)*frand();
+    for (i=1;i<=Wei_i;i++)
+      vi[i]=(int)((vmaxi[i]-vmaxi[i]/2)*frand());
+    for (i=1;i<=Wei_f;i++)
+      pf[i]=(fmax[i]-fmin[i])*frand();
+    for (i=1;i<=Wei_i;i++)
+      pi[i]=(int)((imax[i]-imin[i])*frand());
+  }
+  
+  void chapf(int x)//检查浮点维位置
   {
     if (pf[x]<fmin[x])
       pf[x]=fmin[x];
@@ -56,7 +70,7 @@ class P
       pf[x]=fmax[x];
   }
 
-  void chapi(int x)
+  void chapi(int x)//检查整数维位置
   {
     if (pi[x]<imin[x])
       pi[x]=imin[x];
@@ -64,7 +78,7 @@ class P
       pi[x]=imax[x];
   }
 
-  void chav()
+  void chav()//检查速度，进行最大限速
   {
     int i;
     for (i=1;i<=Wei_f;i++)
@@ -75,7 +89,7 @@ class P
         vi[i]=vmaxi[i];
   }
   
-  void suan()
+  void suan()//计算适应度并更新最优值
   {
     int i;
     pp=0;
@@ -93,7 +107,7 @@ class P
     }
   }
   
-  void tiaosu(const P &h)
+  void tiaosu(const P &h)//调整速度
   {
     int i;
     for (i=1;i<=Wei_f;i++)
@@ -103,7 +117,7 @@ class P
     chav();
   }
   
-  void fei()
+  void fei()//用调整后的速度进行位置变更
   {
     int i;
     for (i=1;i<=Wei_f;i++)
@@ -118,7 +132,7 @@ class P
     }
   }
 
-  void dayin()
+  void dayin()//打印粒子的相关数据
   {
     int i;
     for (i=1;i<=Wei_f;i++)
@@ -134,34 +148,38 @@ int zz;
 
 void read()
 {
-  cin>>maxround;
+  cin>>maxround;//输入最大迭代次数
   int i,n,m;
   for (i=1;i<=Wei_f;i++)
-    cin>>fmin[i];
+    cin>>fmin[i];//输入浮点维下界
   for (i=1;i<=Wei_f;i++)
-    cin>>fmax[i];
+    cin>>fmax[i];//浮点维上界
   for (i=1;i<=Wei_i;i++)
-    cin>>imin[i];
+    cin>>imin[i];//整数维下界
   for (i=1;i<=Wei_i;i++)
-    cin>>imax[i];
-  cin>>n;
+    cin>>imax[i];//整数维上界
+  cin>>n;//浮点参数个数和浮点参数
   for (i=1;i<=n;i++)
     cin>>a[i];
-  cin>>m;
+  cin>>m;//整数参数个数和整数参数
   for (i=1;i<=m;i++)
     cin>>b[i];
 }
 
 void init()
 {
-  mm=maxlongint;
+  mm=maxlongint;//初始化全局最优值
   int i;
+  for (i=1;i<=Wei_f;i++)
+    vmaxf[i]=(fmax[i]-fmin[i])*Vl;
+  for (i=1;i<=Wei_i;i++)
+    vmaxi[i]=(int)((imax[i]-imin[i])*Vl);
   srand(seed);
   //srand((unsigned)time(NULL));
   for (i=1;i<=N;i++)
   {
     zhu[i].rand();
-    zhu[i].pm=maxlongint;
+    zhu[i].pm=maxlongint;//初始化个体最优值
     zhu[i].p=i;
   }
 }
