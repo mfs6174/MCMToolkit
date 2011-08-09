@@ -212,7 +212,7 @@ int main()
   dp=3;
   for (i=0;i<hash[shi].size();i++)
   {
-    dfs(1,0,0,shi,hash[shi][i]);
+    dfs(0,0,0,shi,hash[shi][i]);
   }
   return 0;
 }
