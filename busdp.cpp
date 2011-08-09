@@ -98,13 +98,20 @@ void rm()
       ch[h].l[ch[h].n]=t;
       td.z=h;td.w=0;td.m=ch[h].n;
       hash[t].push_back(td); 
-      for (i=1;i<=ch[h].n;i++)
+      for (i=2;i<=ch[h].n;i++)
       {
-        ch[h].l[ch[h].n+i]=ch[h].l[i];
-        td.z=h;td.w=0;td.m=ch[h].n+i;
+        ch[h].l[ch[h].n+i-1]=ch[h].l[i];
+        td.z=h;td.w=0;td.m=ch[h].n+i-1;
         hash[ch[h].l[i]].push_back(td);
       }
-      ch[h].n*=2;
+      ch[h].n=ch[h].n*2-1;
+      for (i=ch[h].n;i>=1;i--)
+      {
+        ch[h].nn++;
+        ch[h].ll[ch[h].nn]=ch[h].l[i];
+        td.z=h;td.w=1;td.m=ch[h].nn;
+        hash[ch[h].l[i]].push_back(td);
+      }
       continue;
     }
     ch[h].m=2;
