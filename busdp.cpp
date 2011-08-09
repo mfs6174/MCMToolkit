@@ -34,7 +34,7 @@ B ch[1000];
 char tc;
 D td;
 bool ff[10000];
-int f[8][11000],ot[8][11000],zhan[8][11000],xian[8][11000];
+int f[20][11000],ot[20][11000],zhan[20][11000],xian[20][11000];
 
 int val(const string &x)
 {
@@ -154,7 +154,7 @@ int suan(int x,int s)
 }
 
 
-void mfs(int x,int p,int ti,D l)
+void mfs(int x,int p,int ti,D &l,int z)
 {
   int i,pp=0,tt=5,n;
   if (l.w==0)
@@ -164,10 +164,24 @@ void mfs(int x,int p,int ti,D l)
     {
       tt+=3;
       pp++;
-      f[x+1][ch[l.z].l[i]]=min(f[x+1][ch[l.z].l[i]],ti+tt);
-      if (f[x+1][ch[l.z].l[i]]==ti+tt)
-        ot[x+1][ch[l.z].l[i]]=min(p+suan(l.z,pp),ot[x+1][ch[l.z].l[i]]);
-    } 
+      if (ti+tt<f[x+1][ch[l.z].l[i]])
+      {
+        f[x+1][ch[l.z].l[i]]=ti+tt;
+        xian[x+1][ch[l.z].l[i]]=l.z;
+        zhan[x+1][ch[l.z].l[i]]=z;
+        ot[x+1][ch[l.z].l[i]]=p+suan(l.z,pp);
+      }
+      else
+        if (f[x+1][ch[l.z].l[i]]==ti+tt)
+        {
+          if (p+suan(l.z,pp)<ot[x+1][ch[l.z].l[i]])
+          {
+            ot[x+1][ch[l.z].l[i]]=p+suan(l.z,pp);
+            xian[x+1][ch[l.z].l[i]]=l.z;
+            zhan[x+1][ch[l.z].l[i]]=z;
+          }
+        }
+    }
   }
   else
   {
@@ -176,35 +190,70 @@ void mfs(int x,int p,int ti,D l)
     {
       tt+=3;
       pp++;
-      f[x+1][ch[l.z].ll[i]]=min(f[x+1][ch[l.z].ll[i]],ti+tt);
-      if (f[x+1][ch[l.z].ll[i]]==ti+tt)
-        ot[x+1][ch[l.z].ll[i]]=min(p+suan(l.z,pp),ot[x+1][ch[l.z].ll[i]]);
+      if (ti+tt<f[x+1][ch[l.z].ll[i]])
+      {
+        f[x+1][ch[l.z].ll[i]]=ti+tt;
+        xian[x+1][ch[l.z].ll[i]]=-l.z;
+        zhan[x+1][ch[l.z].ll[i]]=z;
+        ot[x+1][ch[l.z].ll[i]]=p+suan(l.z,pp);
+      }
+      else
+        if (f[x+1][ch[l.z].ll[i]]==ti+tt)
+        {
+          if (p+suan(l.z,pp)<ot[x+1][ch[l.z].ll[i]])
+          {
+            ot[x+1][ch[l.z].ll[i]]=p+suan(l.z,pp);
+            xian[x+1][ch[l.z].ll[i]]=-l.z;
+            zhan[x+1][ch[l.z].ll[i]]=z;
+          }
+        }
     }
   }
+}
+
+void dayin(int x,int y)
+{
+  if (y==shi)
+    return;
+  dayin(x-1,zhan[x][y]);
+  ouf<<zhan[x][y]<<" L"<<xian[x][y]<<' ';
 }
 
 int main()
 {
   freopen("data2.txt","r",stdin);
   rm();
-  sf("%d%d",&shi,&zhong);
-  dp=4;
-  for (i=0;i<=4;i++)
-    for (j=1;j<=9999;j++)
+  dp=5;
+  while (sf("%d%d",&shi,&zhong)!=EOF)
+  {
+    ouf<<shi<<' '<<zhong<<endl;
+    for (i=0;i<=dp+1;i++)
+      for (j=1;j<=9999;j++)
+      {
+        f[i][j]=maxlongint;
+        ot[i][j]=maxlongint;
+      }
+    f[0][shi]=0;
+    ot[0][shi]=0;
+    for (i=0;i<hash[shi].size();i++)
+      mfs(0,0,0,hash[shi][i],shi);
+    for (i=1;i<=dp;i++)
+      for (j=1;j<=9999;j++)
+        if (f[i][j]!=maxlongint)
+          for (k=0;k<hash[j].size();k++)
+            mfs(i,ot[i][j],f[i][j],hash[j][k],j);
+    for (i=2;i<=dp+1;i++)
     {
-      f[i][j]=maxlongint;
-      ot[i][j]=maxlongint;
+      if (f[i][zhong]<10000)
+      {
+        ouf<<i-1<<endl;
+        ouf<<f[i][zhong]-5<<' '<<ot[i][zhong]<<endl;
+        dayin(i,zhong);
+        ouf<<zhong<<endl<<endl;
+      }
     }
-  f[0][shi]=0;
-  for (i=0;i<hash[shi].size();i++)
-    mfs(-1,0,0,hash[shi][i]);
-  for (i=0;i<dp;i++)
-    for (j=1;j<=9999;j++)
-      if (f[i][j]!=maxlongint)
-        for (k=0;k<hash[j].size();k++)
-          mfs(i,ot[i][j],f[i][j],hash[j][k]);
-  for (i=0;i<=4;i++)
-    cout<<f[i][zhong]-5<<' '<<ot[i][zhong]<<endl;
+    ouf<<endl;
+  }
   return 0;
 }
 
