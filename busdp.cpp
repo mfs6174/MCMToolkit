@@ -29,13 +29,12 @@ struct B
 };
 
 vector<D> hash[10000];
-int zhan[10000],xian[10000];
-int i,j,t,n,m,shi,zhong,zc,lc,dp;
+int i,j,t,n,m,shi,zhong,dp,k;
 B ch[1000];
 char tc;
 D td;
 bool ff[10000];
-int f[5][11000],ot[5][11000];
+int f[8][11000],ot[8][11000],zhan[8][11000],xian[8][11000];
 
 int val(const string &x)
 {
@@ -148,9 +147,9 @@ int suan(int x,int s)
 }
 
 
-void dfs(int x,int p,int ti,D l)
+void mfs(int x,int p,int ti,D l)
 {
-  int i,j,pp=0,tt=5,n;
+  int i,pp=0,tt=5,n;
   if (l.w==0)
   {
     n=ch[l.z].n;
@@ -182,15 +181,23 @@ int main()
   freopen("data2.txt","r",stdin);
   rm();
   sf("%d%d",&shi,&zhong);
-  dp=3;
-  for (i=0;i<=3;i++)
+  dp=4;
+  for (i=0;i<=4;i++)
     for (j=1;j<=9999;j++)
+    {
       f[i][j]=maxlongint;
+      ot[i][j]=maxlongint;
+    }
   f[0][shi]=0;
   for (i=0;i<hash[shi].size();i++)
-    dfs(0,0,0,hash[shi][i]);
-  
-  
+    mfs(-1,0,0,hash[shi][i]);
+  for (i=0;i<dp;i++)
+    for (j=1;j<=9999;j++)
+      if (f[i][j]!=maxlongint)
+        for (k=0;k<hash[j].size();k++)
+          mfs(i,ot[i][j],f[i][j],hash[j][k]);
+  for (i=0;i<=4;i++)
+    cout<<f[i][zhong]-5<<' '<<ot[i][zhong]<<endl;
   return 0;
 }
 
