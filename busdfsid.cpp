@@ -15,7 +15,7 @@ LANG: C++
 #define sf scanf
 using namespace std;
 //ifstream inf("data1.txt");
-//ofstream ouf("ti.out");
+ofstream ouf("out.txt");
 const int maxlongint=2147483647;
 
 struct D
@@ -34,6 +34,7 @@ int i,j,t,n,m,shi,zhong,zc,lc,dp;
 B ch[1000];
 char tc;
 D td;
+bool ff[10000];
 
 int val(const string &x)
 {
@@ -149,22 +150,25 @@ void dayin()
 {
   int i;
   for (i=1;i<=lc;i++)
-    cout<<xian[i]<<' ';
-  cout<<endl;
+    ouf<<xian[i]<<' ';
+  ouf<<endl;
   for (i=1;i<=zc;i++)
-    cout<<zhan[i]<<' ';
-  cout<<endl;
+    ouf<<zhan[i]<<' ';
+  ouf<<endl;
 }
 
 void dfs(int x,int p,int ti,int z,D l)
 {
   if (x>=dp)
     return;
+  if (ff[z])
+    return;
   int i,j,pp=0,tt=5,n;
   zc++;
   zhan[zc]=z;
   lc++;
   xian[lc]=l.z;
+  ff[z]=true;
   if (l.w==0)
   {
     n=ch[l.z].n;
@@ -173,7 +177,8 @@ void dfs(int x,int p,int ti,int z,D l)
       if (ch[l.z].l[i]==zhong)
       {
         dayin();
-        cout<<x<<' '<<p+suan(l.z,pp)<<' '<<ti+tt-5<<' '<<endl<<endl;
+        ouf<<x<<' '<<p+suan(l.z,pp)<<' '<<ti+tt-5<<' '<<endl<<endl;
+        zc--;lc--;ff[z]=false;
         return;
       }
       for (j=0;j<hash[ch[l.z].l[i]].size();j++)
@@ -191,7 +196,8 @@ void dfs(int x,int p,int ti,int z,D l)
       if (ch[l.z].ll[i]==zhong)
       {
         dayin();
-        cout<<x<<' '<<p+suan(l.z,pp)<<' '<<ti+tt-5<<' '<<endl<<endl;
+        ouf<<x<<' '<<p+suan(l.z,pp)<<' '<<ti+tt-5<<' '<<endl<<endl;
+        zc--;lc--;ff[z]=false;
         return;
       }
       for (j=0;j<hash[ch[l.z].ll[i]].size();j++)
@@ -202,18 +208,19 @@ void dfs(int x,int p,int ti,int z,D l)
     }
   }
   zc--;lc--;
+  ff[z]=false;
 }
 
 int main()
 {
-  freopen("data.txt","r",stdin);
+  freopen("data2.txt","r",stdin);
   rm();
   sf("%d%d",&shi,&zhong);
   dp=3;
-  for (i=0;i<hash[shi].size();i++)
-  {
-    dfs(0,0,0,shi,hash[shi][i]);
-  }
+  //for (i=0;i<hash[shi].size();i++)
+  //{
+  dfs(0,0,0,shi,hash[shi][0]);
+    //}
   return 0;
 }
 
