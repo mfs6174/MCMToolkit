@@ -40,7 +40,7 @@ int dtzhan[20][11000];
 
 double dtm[50][50];
 vector<int> dui[50];
-int bus2dt[500];
+int bus2dt[11000];
 
 int val(const string &x)
 {
@@ -300,9 +300,9 @@ int main()
       }
     f[0][shi]=0;
     ot[0][shi]=0;
-    for (i=0;i<hash[shi].size();i++)
-      mfs(0,0,0,hash[shi][i],shi,0);
-    for (i=1;i<=dp;i++)
+    // for (i=0;i<hash[shi].size();i++)
+    // mfs(0,0,0,hash[shi][i],shi,0);
+    for (i=0;i<=dp;i++)
       for (j=1;j<=9999;j++)
         if (f[i][j]!=maxlongint)
         {
@@ -333,6 +333,7 @@ int main()
                   xian[i+1][ss]=1000;
                   zhan[i+1][ss]=j;
                   ot[i+1][ss]=pp;
+                  dtzhan[i+1][ss]=0;
                 }
                 else
                   if (f[i+1][ss]==tt)
@@ -342,12 +343,13 @@ int main()
                       ot[i+1][ss]=pp;
                       xian[i+1][ss]=1000;
                       zhan[i+1][ss]=j;
+                      dtzhan[i+1][ss]=0;
                     }
                   } 
               }
             }
         }
-    for (i=2;i<=dp+1;i++)
+    for (i=1;i<=dp+1;i++)
     {
       if (f[i][zhong]<10000)
       {
