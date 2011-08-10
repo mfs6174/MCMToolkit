@@ -14,7 +14,7 @@ LANG: C++
 #include<vector>
 #define sf scanf
 using namespace std;
-//ifstream inf("data1.txt");
+//ifstream inf("data3.txt");
 ofstream ouf("out-udgrd.txt");
 const int maxlongint=2147483647;
 
@@ -29,14 +29,14 @@ struct B
 };
 
 vector<D> hash[10000];
-int i,j,t,n,m,shi,zhong,dp,k;
+int i,j,t,n,m,shi,zhong,dp,k,o,u;
 B ch[1000];
 char tc;
 D td;
 bool ff[10000];
 double f[20][11000];
 int ot[20][11000],zhan[20][11000],xian[20][11000];
-
+int dtzhan[20][11000];
 
 double dtm[50][50];
 vector<int> dui[50];
@@ -160,7 +160,7 @@ int suan(int x,int s)
 }
 
 
-void mfs(int x,int p,int ti,D &l,int z)
+void mfs(int x,int p,double ti,D &l,int z,int hs)
 {
   int i,pp=0,tt=5,n;
   if (l.w==0)
@@ -175,6 +175,7 @@ void mfs(int x,int p,int ti,D &l,int z)
         f[x+1][ch[l.z].l[i]]=ti+tt;
         xian[x+1][ch[l.z].l[i]]=l.z;
         zhan[x+1][ch[l.z].l[i]]=z;
+        dtzhan[x+1][ch[l.z].l[i]]=hs;
         ot[x+1][ch[l.z].l[i]]=p+suan(l.z,pp);
       }
       else
@@ -185,6 +186,7 @@ void mfs(int x,int p,int ti,D &l,int z)
             ot[x+1][ch[l.z].l[i]]=p+suan(l.z,pp);
             xian[x+1][ch[l.z].l[i]]=l.z;
             zhan[x+1][ch[l.z].l[i]]=z;
+            dtzhan[x+1][ch[l.z].l[i]]=hs;
           }
         }
     }
@@ -201,6 +203,7 @@ void mfs(int x,int p,int ti,D &l,int z)
         f[x+1][ch[l.z].ll[i]]=ti+tt;
         xian[x+1][ch[l.z].ll[i]]=-l.z;
         zhan[x+1][ch[l.z].ll[i]]=z;
+        dtzhan[x+1][ch[l.z].ll[i]]=hs;
         ot[x+1][ch[l.z].ll[i]]=p+suan(l.z,pp);
       }
       else
@@ -211,6 +214,7 @@ void mfs(int x,int p,int ti,D &l,int z)
             ot[x+1][ch[l.z].ll[i]]=p+suan(l.z,pp);
             xian[x+1][ch[l.z].ll[i]]=-l.z;
             zhan[x+1][ch[l.z].ll[i]]=z;
+            dtzhan[x+1][ch[l.z].ll[i]]=hs;
           }
         }
     }
@@ -222,32 +226,39 @@ void dayin(int x,int y)
   if (y==shi)
     return;
   dayin(x-1,zhan[x][y]);
-  ouf<<zhan[x][y]<<" L"<<xian[x][y]<<' ';
+  ouf<<zhan[x][y];
+  if (dtzhan[x][y])
+    ouf<<" B"<<dtzhan[x][y];
+  ouf<<" L"<<xian[x][y]<<' ';
 }
 
 void rdt()
 {
-  int i,j,t,tt;
-  sf("%d",&t);
+  int i,t;
+  //sf("%d",&t);
   for (i=1;i<=39;i++)
   {
     sf("%d",&t);
     sf("%d",&t);
-    while (t!=-1)
+    while (t)
     {
       dui[i].push_back(t);
       bus2dt[t]=i;
       sf("%d",&t);
     }
   }
+  for (i=0;i<dui[12].size();i++)
+    dui[40].push_back(dui[12][i]);
+  for (i=0;i<dui[18].size();i++)
+    dui[41].push_back(dui[18][i]);
 }
 
 void dtinit()
 {
-  int i,j,k,t;
+  int i,j,k;
   for (i=1;i<=41;i++)
     for (j=1;j<=41;j++)
-      dtm[i][j]==maxlongint;
+      dtm[i][j]=maxlongint;
   for (i=1;i<=22;i++)
     dtm[i][i+1]=dtm[i+1][i]=2.5;
   dtm[40][12]=dtm[12][40]=4;
@@ -274,7 +285,7 @@ int main()
 {
   freopen("data2.txt","r",stdin);
   rm();
-  freopen("data3.txt","r",stdin);
+  //freopen("data3.txt","r",stdin);
   rdt();
   dtinit();
   dp=5;
@@ -290,12 +301,52 @@ int main()
     f[0][shi]=0;
     ot[0][shi]=0;
     for (i=0;i<hash[shi].size();i++)
-      mfs(0,0,0,hash[shi][i],shi);
+      mfs(0,0,0,hash[shi][i],shi,0);
     for (i=1;i<=dp;i++)
       for (j=1;j<=9999;j++)
         if (f[i][j]!=maxlongint)
+        {
           for (k=0;k<hash[j].size();k++)
-            mfs(i,ot[i][j],f[i][j],hash[j][k],j);
+            mfs(i,ot[i][j],f[i][j],hash[j][k],j,0);
+            int hh=bus2dt[j];
+            if (!hh)
+              continue;
+            for (o=0;o<dui[hh].size();o++)
+            {
+              int ss=dui[hh][o];
+              if (ss!=j)
+                for (k=0;k<hash[ss].size();k++)
+                  mfs(i,ot[i][j],f[i][j],hash[ss][k],j,ss);
+            }
+            for (u=1;u<=41;u++)
+            {
+              if (u==hh)
+                continue;
+              for (o=0;o<dui[u].size();o++)
+              {
+                int ss=dui[u][o];
+                int pp=ot[i][j]+3;
+                double tt=f[i][j]+13+dtm[hh][u];
+                if (tt<f[i+1][ss])
+                {
+                  f[i+1][ss]=tt;
+                  xian[i+1][ss]=1000;
+                  zhan[i+1][ss]=j;
+                  ot[i+1][ss]=pp;
+                }
+                else
+                  if (f[i+1][ss]==tt)
+                  {
+                    if (pp<ot[i+1][ss])
+                    {
+                      ot[i+1][ss]=pp;
+                      xian[i+1][ss]=1000;
+                      zhan[i+1][ss]=j;
+                    }
+                  } 
+              }
+            }
+        }
     for (i=2;i<=dp+1;i++)
     {
       if (f[i][zhong]<10000)
