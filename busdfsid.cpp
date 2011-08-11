@@ -172,11 +172,13 @@ void dfs(int x,int p,int ti,int z,D l)
   if (l.w==0)
   {
     n=ch[l.z].n;
-    for (i=l.m;i<=n;i++)
+    for (i=l.m+1;i<=n;i++)
     {
+      tt+=3;
+      pp++;
       if (ch[l.z].l[i]==zhong)
       {
-        dayin();
+        //dayin();
         ouf<<x<<' '<<p+suan(l.z,pp)<<' '<<ti+tt-5<<' '<<endl<<endl;
         zc--;lc--;ff[z]=false;
         return;
@@ -184,18 +186,18 @@ void dfs(int x,int p,int ti,int z,D l)
       for (j=0;j<hash[ch[l.z].l[i]].size();j++)
         if (hash[ch[l.z].l[i]][j].z!=l.z)
           dfs(x+1,p+suan(l.z,pp),ti+tt,ch[l.z].l[i],hash[ch[l.z].l[i]][j]);
-      tt+=3;
-      pp++;
     }
   }
   else
   {
     n=ch[l.z].nn;
-    for (i=l.m;i<=n;i++)
+    for (i=l.m+1;i<=n;i++)
     {
+      tt+=3;
+      pp++;
       if (ch[l.z].ll[i]==zhong)
       {
-        dayin();
+        //dayin();
         ouf<<x<<' '<<p+suan(l.z,pp)<<' '<<ti+tt-5<<' '<<endl<<endl;
         zc--;lc--;ff[z]=false;
         return;
@@ -203,8 +205,6 @@ void dfs(int x,int p,int ti,int z,D l)
       for (j=0;j<hash[ch[l.z].ll[i]].size();j++)
         if (hash[ch[l.z].ll[i]][j].z!=l.z)
           dfs(x+1,p+suan(l.z,pp),ti+tt,ch[l.z].ll[i],hash[ch[l.z].ll[i]][j]);
-      tt+=3;
-      pp++;
     }
   }
   zc--;lc--;
@@ -217,10 +217,10 @@ int main()
   rm();
   sf("%d%d",&shi,&zhong);
   dp=3;
-  //for (i=0;i<hash[shi].size();i++)
-  //{
+  for (i=0;i<hash[shi].size();i++)
+  {
   dfs(0,0,0,shi,hash[shi][0]);
-    //}
+  }
   return 0;
 }
 
