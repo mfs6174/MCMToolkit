@@ -25,7 +25,7 @@ struct D
 struct B
 {
   int t,n,nn,m;
-  int l[100],ll[100];
+  int l[150],ll[150];
 };
 
 vector<D> hash[10000];
@@ -221,7 +221,7 @@ void dayin(int x,int y)
 
 int main()
 {
-  freopen("data2.txt","r",stdin);
+  freopen("data3.txt","r",stdin);
   rm();
   dp=5;
   while (sf("%d%d",&shi,&zhong)!=EOF)
