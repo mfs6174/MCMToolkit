@@ -25,7 +25,7 @@ struct D
 struct B
 {
   int t,n,nn,m;
-  int l[100],ll[100];
+  int l[150],ll[150];
 };
 
 vector<D> hash[10000];
