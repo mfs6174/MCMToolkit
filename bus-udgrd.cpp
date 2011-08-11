@@ -29,7 +29,7 @@ struct B
 };
 
 vector<D> hash[10000];
-int i,j,t,n,m,shi,zhong,dp,k,o,u;
+int i,j,t,n,m,shi,zhong,dp,k,o,u,co;
 B ch[1000];
 char tc;
 D td;
@@ -41,6 +41,8 @@ int dtzhan[20][11000];
 double dtm[50][50];
 vector<int> dui[50];
 int bus2dt[11000];
+
+int  tepan;
 
 int val(const string &x)
 {
@@ -162,7 +164,7 @@ int suan(int x,int s)
 
 void mfs(int x,int p,double ti,D &l,int z,int hs)
 {
-  int i,pp=0,tt=5,n;
+  int i,pp=0,tt=0,n;
   if (l.w==0)
   {
     n=ch[l.z].n;
@@ -303,11 +305,16 @@ int main()
     // for (i=0;i<hash[shi].size();i++)
     // mfs(0,0,0,hash[shi][i],shi,0);
     for (i=0;i<=dp;i++)
+    {
+      if (i)
+        co=5;
+      else
+        co=0;
       for (j=1;j<=9999;j++)
         if (f[i][j]!=maxlongint)
         {
           for (k=0;k<hash[j].size();k++)
-            mfs(i,ot[i][j],f[i][j],hash[j][k],j,0);
+            mfs(i,ot[i][j],f[i][j]+co,hash[j][k],j,0);
             int hh=bus2dt[j];
             if (!hh)
               continue;
@@ -316,7 +323,7 @@ int main()
               int ss=dui[hh][o];
               if (ss!=j)
                 for (k=0;k<hash[ss].size();k++)
-                  mfs(i,ot[i][j],f[i][j],hash[ss][k],j,ss);
+                  mfs(i,ot[i][j],f[i][j]+co,hash[ss][k],j,ss);
             }
             for (u=1;u<=41;u++)
             {
@@ -326,7 +333,7 @@ int main()
               {
                 int ss=dui[u][o];
                 int pp=ot[i][j]+3;
-                double tt=f[i][j]+13+dtm[hh][u];
+                double tt=f[i][j]+8+dtm[hh][u];
                 if (tt<f[i+1][ss])
                 {
                   f[i+1][ss]=tt;
@@ -349,12 +356,17 @@ int main()
               }
             }
         }
+    }
     for (i=1;i<=dp+1;i++)
     {
       if (f[i][zhong]<10000)
       {
         ouf<<i-1<<endl;
-        ouf<<f[i][zhong]-5<<' '<<ot[i][zhong]<<endl;
+        if (xian[i][zhong]==1000)
+          tepan=2;
+        else
+          tepan=0;
+        ouf<<f[i][zhong]+tepan<<' '<<ot[i][zhong]<<endl;
         dayin(i,zhong);
         ouf<<zhong<<endl<<endl;
       }
