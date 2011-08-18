@@ -75,6 +75,7 @@ int main()
   ouf<<cc-1<<endl;
   for (i=1;i<cc;i++)
   {
+    cout<<rr[i].size()<<endl;
     for (j=0;j<rr[i].size();j++)
       ouf<<rr[i][j].x<<' ';
     ouf<<endl;
