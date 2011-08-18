@@ -72,8 +72,8 @@ int main()
       fl=true;
       floodfill(i,j);
     }
-  ouf<<cc;
-  for (i=1;i<=cc;i++)
+  ouf<<cc-1<<endl;
+  for (i=1;i<cc;i++)
   {
     for (j=0;j<rr[i].size();j++)
       ouf<<rr[i][j].x<<' ';
