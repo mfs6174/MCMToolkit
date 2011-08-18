@@ -24,7 +24,7 @@ LANG: C++
 #define MAXN 1000
 using namespace std;
 ifstream inf("data1.txt");
-ofstream ouf("data3.out");
+ofstream ouf("data3.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
