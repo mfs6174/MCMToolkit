@@ -1,7 +1,7 @@
 /*
 ID: mfs6174
 email: mfs6174@gmail.com
-PROG: ti
+PROG: 旋转卡尺法求公切线
 LANG: C++
 */
 
