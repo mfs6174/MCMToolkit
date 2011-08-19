@@ -1,4 +1,4 @@
-img=imread('datapic1.jpg');
+img=imread('datapic2.jpg');
 img=rgb2gray(img);
 [E,th,gv,gh]=EDGE(img,'sobel');
 figure,imshow(E);
@@ -33,8 +33,8 @@ for i=1:n
 	end
 end
 fid=fopen('data3.txt','w');
-fprintf(fid,'%d\n',cc-1);		
-for i=1:cc-1
+fprintf(fid,'%d\n',cc);		
+for i=1:cc
 	fprintf(fid,'%d\n',c(i));
 	fprintf(fid,'%d ',rr(i:i,1:c(i),1:1));
 	fprintf(fid,'\n');
@@ -43,23 +43,23 @@ for i=1:cc-1
 end
 fclose(fid);
 res=zeros(10,5);
-for i=1:cc-1
+for i=1:cc
 	res(i:i,:)=fitellipse(rr(i:i,1:c(i),1:1),rr(i:i,1:c(i),2:2));
 end
 fid=fopen('data4.txt','w');
-for i=1:cc-1
+for i=1:cc
     fprintf(fid,'%f ',res(i:i,:));
     fprintf(fid,'\n\n');
 end
 fclose(fid);
 ellipse(res(1:1,3:3),res(1:1,4:4),res(1:1,5:5),res(1:1,2:2),res(1:1,1:1));
 hold on;
-for i=2:c-1
+for i=2:cc
     ellipse(res(i:i,3:3),res(i:i,4:4),res(i:i,5:5),res(i:i,2:2),res(i:i,1:1));
 end
 figure 2;
 ellipse(res(1:1,3:3),res(1:1,4:4),res(1:1,5:5),res(1:1,2:2),res(1:1,1:1));
 hold on;
-for i=2:c-1
+for i=2:cc
     ellipse(res(i:i,3:3),res(i:i,4:4),res(i:i,5:5),res(i:i,2:2),res(i:i,1:1));
 end
