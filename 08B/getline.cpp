@@ -25,7 +25,7 @@ LANG: C++
 using namespace std;
 ifstream inf("data3.txt");
 ofstream ouf("data5.txt");
-ofstream ouf1("data4.txt");
+ofstream ouf1("data6.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
