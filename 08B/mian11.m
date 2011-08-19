@@ -55,22 +55,23 @@ fclose(fid);
 rl=zeros(10,10,2);
 rh=rl;
 o=0;p=0;q=0;
-for i=1:4
-	for j=1:5
+for i=1:5
+	for j=i+1:5
 		if i~=j
-			o=1;p=1;
+			[mm,o]=min(rr(i,1:c(i),2));[mm,p]=min(rr(j,1:c(j),2));
 			fl=0;
 			while fl==0
+				fl=1;
 				[k,b]=getline(rr(i:i,o:o,:),rr(j:j,p:p,:));
 				for q=1:c(j)
-					if rr(j:j,q:q,1:1)*k+b<rr(j:j,q:q,2:2)
-						p=q;fl=1;
+					if (rr(j:j,q:q,1:1)-rr(j,p,1))*k+rr(j,p,2)<rr(j:j,q:q,2:2)
+						p=q;fl=0;
 						[k,b]=getline(rr(i:i,o:o,:),rr(j:j,p:p,:));
 					end				
 				end
 				for q=1:c(i)
-					if rr(i:i,q:q,1:1)*k+b<rr(i:i,q:q,2:2)
-						o=q;fl=1;
+					if (rr(i:i,q:q,1:1)-rr(i,o,1))*k+rr(i,o,2)<rr(i:i,q:q,2:2)
+						o=q;fl=0;
 						[k,b]=getline(rr(i:i,o:o,:),rr(j:j,p:p,:));
 					end
 				end
