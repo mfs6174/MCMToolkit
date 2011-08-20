@@ -52,16 +52,16 @@ for i=1:cc
     fprintf(fid,'\n\n');
 end
 fclose(fid);
-%figure(2);
-%ellipse(res(1:1,3:3),res(1:1,4:4),res(1:1,5:5),res(1:1,1:1),res(1:1,2:2));
-%for i=2:cc
-%    ellipse(res(i:i,3:3),res(i:i,4:4),res(i:i,5:5),res(i:i,1:1),res(i:i,2:2));
-%end
+figure(2);
+ellipse(res(1:1,3:3),res(1:1,4:4),res(1:1,5:5),res(1:1,1:1),res(1:1,2:2));
+for i=2:cc
+    ellipse(res(i:i,3:3),res(i:i,4:4),res(i:i,5:5),res(i:i,1:1),res(i:i,2:2));
+end
 
-%[kk,bb]=textread('data5.txt','%f%f');
-%hold on;
-%xx=0:1100;
-%for i=1:size(kk)
-%	plot(xx,kk(i)*xx+bb(i));
-%end
+[kk,bb]=textread('data5.txt','%f%f');
+hold on;
+xx=0:780;
+for i=1:size(kk)
+	plot(xx,kk(i)*xx+bb(i));
+end
 
