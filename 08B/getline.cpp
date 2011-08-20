@@ -26,6 +26,7 @@ using namespace std;
 ifstream inf("data3.txt");
 ofstream ouf("data5.txt");
 ofstream ouf1("data6.txt");
+ofstream ouf2("data7.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
@@ -61,6 +62,11 @@ struct P
   {
     return x*b.y-b.x*y;
   }
+  void print(int x)
+  {
+    ouf2<<x<<end;
+    ouf2<<x<<' '<<y<<endl<<endl;
+  }
 };
 P yuan[10][500];
 P xian;
@@ -71,6 +77,24 @@ P a1[10][10];
 P a2[10][10];
 double kk[10][10];
 double bb[10][10];
+bool fail;
+P cp;
+
+P lcp(P aa, P ad, P ba, P bd)//返回fail如果true说明平行或重合再交叉相减叉积即可
+{ // 求直线交点  
+  ad = ad - aa;  
+  bd = bd - ba;  
+  double tmp = bd ^ ad;
+  fail=false;
+  if (cwz(tmp)==0)
+  {
+    fail=true;
+    return P(0,0);
+  }
+  else
+    return P((ad.x * bd.x * (ba.y - aa.y) + aa.x * bd.x * ad.y - ba.x * ad.x * bd.y) / tmp,  
+             (ad.y * bd.y * (aa.x - ba.x) + ba.y * ad.y * bd.x - aa.y * bd.y * ad.x) / tmp);  
+}  
 
 int main()
 {
@@ -134,6 +158,16 @@ int main()
       ouf1<<bb[i][j]<<endl<<endl;
       ouf<<kk[i][j]<<' '<<bb[i][j]<<endl;
     }
+  cp=lcp(a1[1][3],a2[3][1],a1[1][4],a2[4][1]);
+  cp.print(1);
+  cp=lcp(a1[2][1],a2[1][2],a1[2][5],a2[5][2]);
+  cp.print(2);
+  cp=lcp(a2[1][3],a1[3][1],a1[3][5],a2[5][3]);
+  cp.print(3);
+  cp=lcp(a1[4][1],a2[1][4],a1[4][5],a2[5][4]);
+  cp.print(4);
+  cp=lcp(a1[5][3],a2[3][5],a1[5][4],a2[4][5]);
+  cp.print(5);
   return 0;
 }
 
