@@ -64,7 +64,7 @@ struct P
   }
   void print(int x)
   {
-    ouf2<<x<<end;
+    ouf2<<x<<endl;
     ouf2<<x<<' '<<y<<endl<<endl;
   }
 };
