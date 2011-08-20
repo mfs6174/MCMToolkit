@@ -62,7 +62,7 @@ struct P
     return x*b.y-b.x*y;
   }
 };
-P yuan[10][200];
+P yuan[10][500];
 P xian;
 int c[10];
 bool fl;
