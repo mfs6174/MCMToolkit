@@ -1,6 +1,6 @@
-img=imread('datapic1.jpg');
+img=imread('picture.bmp');
 img=rgb2gray(img);
-[E,th,gv,gh]=EDGE(img,'sobel');
+[E,th,gv,gh]=EDGE(img,'prewitt');
 figure,imshow(E);
 fid=fopen('data1.txt','w');
 fid2=fopen('data2.txt','w');
