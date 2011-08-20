@@ -62,9 +62,9 @@ struct P
   {
     return x*b.y-b.x*y;
   }
-  void print(int x)
+  void print(int p)
   {
-    ouf2<<x<<endl;
+    ouf2<<p<<endl;
     ouf2<<x<<' '<<y<<endl<<endl;
   }
 };
