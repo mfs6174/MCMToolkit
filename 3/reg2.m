@@ -18,37 +18,37 @@ for i=4:4
         flag=1
     end
     mr=-10;
-    [fun,G]=fit(x,y(i,2:10)',f1);
+    [fun,G]=fit(x,y(i,2:10)',f1,'Startpoint',[1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     
-    [fun,G]=fit(x,y(i,2:10)',f2);
+    [fun,G]=fit(x,y(i,2:10)',f2,'Startpoint',[1,1,1,0.1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     
-    [fun,G]=fit(x,y(i,2:10)',f3);
+    [fun,G]=fit(x,y(i,2:10)',f3,'Startpoint',[1,1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,2:10)',f4);
+    [fun,G]=fit(x,y(i,2:10)',f4,'Startpoint',[1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,2:10)',f5);
+    [fun,G]=fit(x,y(i,2:10)',f5,'Startpoint',[1,0.1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,2:10)',f6);
+    [fun,G]=fit(x,y(i,2:10)',f6,'Startpoint',[1,0.1,1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     i
     mfun
     mG
-    output_fig(2:11,y(i,2:11),mfun,sprintf('shanghai%d',i));
+    output_fig1([x(1:9)',11],y(i,2:11),mfun,sprintf('beijing%d',i));
 end

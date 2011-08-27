@@ -1,0 +1,119 @@
+beijing1
+Columns 1 through 7
+
+  282.1000  285.8000  310.4000  327.9000  345.4000  362.9000  390.3000
+
+  Columns 8 through 11
+
+  435.5000  379.0000  412.5000  490.1000
+
+
+
+mfun = 
+
+     General model:
+     mfun(t) = y0*exp(r*t)+q*sin(w*t+o)
+     Coefficients (with 95% confidence bounds):
+       r =     0.04551  (0.02876, 0.06225)
+       q =      -18.28  (-43.01, 6.447)
+       w =       1.651  (1.23, 2.072)
+       o =        4.73  (2.151, 7.309)
+       y0 =       274.4  (242.8, 305.9)
+
+mG = 
+
+           sse: 2.0823e+03
+       rsquare: 0.9152
+           dfe: 5
+    adjrsquare: 0.8474
+          rmse: 20.4072
+
+beijing2
+ Columns 1 through 7
+
+   27.6800   29.5000   31.1000   32.8000   34.5000   36.2000   40.2600
+
+  Columns 8 through 11
+
+   45.8000   44.6000   43.6000   50.4000
+
+mfun = 
+
+     General model:
+     mfun(t) = a+b*t+q*sin(w*t+o)
+     Coefficients (with 95% confidence bounds):
+       a =       24.27  (21.59, 26.94)
+       b =       2.202  (1.756, 2.649)
+       q =      -1.902  (-3.652, -0.1521)
+       w =       1.089  (0.7809, 1.397)
+       o =       2.482  (0.6437, 4.32)
+
+mG = 
+
+           sse: 10.2501
+       rsquare: 0.9737
+           dfe: 5
+    adjrsquare: 0.9527
+          rmse: 1.4318
+
+beijing3
+
+ 1.0e+04 *
+
+  Columns 1 through 7
+
+    1.0186    1.1007    1.1500    1.1833    1.2167    1.2500    1.3200
+
+  Columns 8 through 11
+
+    1.4280    1.4181    1.6257    1.8000
+
+
+mfun = 
+
+     General model:
+     mfun(t) = y0*exp(r*t)+k/(1+exp(c-r*t))
+     Coefficients (with 95% confidence bounds):
+       r =      0.4318  (0.1649, 0.6988)
+       k =   1.223e+04  (1.142e+04, 1.304e+04)
+       c =      -1.154  (-1.955, -0.3536)
+       y0 =        52.4  (-91.9, 196.7)
+
+mG = 
+
+           sse: 6.0788e+05
+       rsquare: 0.9792
+           dfe: 6
+    adjrsquare: 0.9689
+          rmse: 318.2977
+
+beijing4
+ans =
+
+   1.0e+03 *
+
+  Columns 1 through 7
+
+    0.6830    0.8877    0.9300    1.0533    1.1767    1.3000    1.4827
+
+  Columns 8 through 11
+
+    1.7536    1.9070    2.1445    2.7679
+
+mfun = 
+
+     General model:
+     mfun(t) = a+b*t+y0*exp(r*t)
+     Coefficients (with 95% confidence bounds):
+       a =       304.9  (-3750, 4359)
+       b =       35.76  (-482.4, 553.9)
+       r =      0.1509  (-0.5037, 0.8054)
+       y0 =       330.2  (-3858, 4519)
+
+mG = 
+
+           sse: 1.1352e+04
+       rsquare: 0.9945
+           dfe: 6
+    adjrsquare: 0.9918
+          rmse: 43.4975
