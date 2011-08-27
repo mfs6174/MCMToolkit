@@ -9,7 +9,7 @@ f6=fittype('q*sin(w*t+o)+k/(1+exp(c-r*t))','independent',{'t'},'coefficients',{'
 
 n=1:7;
 x=n';
-[y(1,:),y(2,:),y(3,:),y(4,:)]=textread('data1.txt','%f%f%f%f');
+[y(1,:),y(2,:),y(3,:),y(4,:)]=textread('data4.txt','%f%f%f%f');
 %f1=fittype('a+b*t','independent',{'t'},'coefficients',{'a','b'});
 for i=1:1
     if y(i,4)<y(i,3)
@@ -54,5 +54,5 @@ for i=1:1
     i
     mfun
     mG
-    output_fig(1:11,y(i,:),mfun,sprintf('beijing%d',i));
+    output_fig(1:11,y(i,:),mfun,'suzhou2');
 end
