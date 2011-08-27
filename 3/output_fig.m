@@ -4,6 +4,7 @@ function output_fig(xx,y_static,y_best_fit,name)
     hold on;
     p=plot(xx,y_static,'.-');
     plot(y_best_fit,'--');
+    set(gca,'XTick',[1:1:size(xx,2)])    
     set(gca,'XTickLabel',sprintf('%d|',2000:2010))
     set(p,'MarkerSize',25);
     legend(gca,'off');
