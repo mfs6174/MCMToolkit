@@ -1,0 +1,41 @@
+beijing1
+fun = 
+
+     General model:
+     fun(t) = a+b*t+k/(1+exp(c-r*t))
+     Coefficients (with 95% confidence bounds):
+       a =       -9359
+       b =       9.518
+       k =       -9360
+       c =      0.2399
+       r =      0.8865
+
+G = 
+
+           sse: 1.3250e+04
+       rsquare: 0.6815
+           dfe: 6
+    adjrsquare: 0.4691
+          rmse: 46.9931
+
+beijing2
+fun = 
+
+     General model:
+     fun(t) = a+b*t+k/(1+exp(c-r*t))
+     Coefficients (with 95% confidence bounds):
+       a =       -2189
+       b =       2.202
+       k =       -2189
+       c =      0.9841
+       r =      0.1672
+
+G = 
+
+           sse: 29.7541
+       rsquare: 0.9472
+           dfe: 6
+    adjrsquare: 0.9120
+          rmse: 2.2269
+
+
