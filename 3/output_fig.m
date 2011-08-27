@@ -3,7 +3,7 @@ function output_fig(xx,y_static,y_best_fit,name)
     clf;
     hold on;
     plot(xx,y_static,'.-');
-    p=plot(y_best_fit,'.--');
+    p=plot(y_best_fit,'--');
     set(gca,'XTickLabel',sprintf('%d|',2000:2010))
     set(p,'MarkerSize',25);
     saveas(p,name,'eps')
