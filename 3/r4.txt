@@ -1,0 +1,141 @@
+hangzhou1
+ans =
+
+  Columns 1 through 7
+
+   70.7100   81.9400  105.6300  120.8733  136.1167  151.3600  182.0200
+
+  Columns 8 through 11
+
+  208.6000  221.3300  230.4000  275.7100
+
+mfun = 
+
+     General model:
+     mfun(t) = a+b*t+k/(1+exp(c-r*t))
+     Coefficients (with 95% confidence bounds):
+       a =       55.05  (45.21, 64.89)
+       b =       16.02  (13.51, 18.52)
+       k =       20.92  (4.12, 37.71)
+       c =       198.2  (-1.551e+16, 1.551e+16)
+       r =       28.45  (-2.215e+15, 2.215e+15)
+
+mG = 
+
+           sse: 91.6720
+       rsquare: 0.9969
+           dfe: 5
+    adjrsquare: 0.9945
+          rmse: 4.2819
+
+
+ans =
+
+  252.1422
+
+
+ans =
+
+   23.5678
+
+hangzhou2
+
+ans =
+
+  Columns 1 through 7
+
+    2.9200    3.7300    4.7700    5.7067    6.6433    7.5800    9.0900
+
+  Columns 8 through 11
+
+   11.1900   12.9600   13.8000   16.9000
+
+mfun = 
+
+     General model:
+     mfun(t) = q*sin(w*t+o)+k/(1+exp(c-r*t))
+     Coefficients (with 95% confidence bounds):
+       q =     -0.3376  (-0.6152, -0.05994)
+       w =      -1.308  (-1.732, -0.8845)
+       o =      -3.052  (-5.371, -0.7325)
+       k =          30  (6.443, 53.55)
+       c =       2.381  (1.683, 3.078)
+       r =      0.2263  (0.1548, 0.2978)
+
+mG = 
+
+           sse: 0.1832
+       rsquare: 0.9986
+           dfe: 4
+    adjrsquare: 0.9969
+          rmse: 0.2140
+
+
+ans =
+
+   15.4768
+
+
+ans =
+
+    1.4232
+
+hangzhou3
+未插值
+mfun = 
+
+     General model:
+     mfun(t) = a+b*t+y0*exp(r*t)
+     Coefficients (with 95% confidence bounds):
+       a =       10.62  (-1.154e+04, 1.156e+04)
+       b =      -189.5  (-1134, 755.3)
+       r =      0.1131  (-0.1061, 0.3324)
+       y0 =        2256  (-9443, 1.395e+04)
+
+mG = 
+
+           sse: 1.2207e+04
+       rsquare: 0.9985
+           dfe: 6
+    adjrsquare: 0.9977
+          rmse: 45.1047
+
+
+ans =
+
+   5.7556e+03
+
+
+ans =
+
+  549.2783
+
+hangzhou4
+未插值
+mfun = 
+
+     General model:
+     mfun(t) = a+b*t+y0*exp(r*t)
+     Coefficients (with 95% confidence bounds):
+       a =       36.14  (-902.5, 974.7)
+       b =       16.36  (-100.5, 133.3)
+       r =      0.1486  (-0.2813, 0.5785)
+       y0 =         115  (-853, 1083)
+
+mG = 
+
+           sse: 544.1623
+       rsquare: 0.9980
+           dfe: 6
+    adjrsquare: 0.9970
+          rmse: 9.5233
+
+
+ans =
+
+  805.7510
+
+
+ans =
+
+  107.0590
