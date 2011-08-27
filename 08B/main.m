@@ -1,6 +1,6 @@
-img=imread('datapic2.jpg');
+img=imread('picture.bmp');
 img=rgb2gray(img);
-[E,th,gv,gh]=EDGE(img,'sobel');
+[E,th]=EDGE(img,'sobel');
 figure,imshow(E);
 fid=fopen('data1.txt','w');
 fid2=fopen('data2.txt','w');
@@ -21,11 +21,11 @@ fl=0;
 global cc;
 cc=0;
 global ff;
-ff=zeros(1000,1000);
+ff=zeros(1200,1200);
 global c;
 c=zeros(10);
 global rr;
-rr=zeros(10,1000,2);
+rr=zeros(10,10000,2);
 for i=1:n
 	for j=1:m
 		fl=1;
@@ -60,7 +60,7 @@ end
 
 [kk,bb]=textread('data5.txt','%f%f');
 hold on;
-xx=0:400;
+xx=0:780;
 for i=1:size(kk)
 	plot(xx,kk(i)*xx+bb(i));
 end
