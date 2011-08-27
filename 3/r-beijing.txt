@@ -1,0 +1,94 @@
+i =
+
+     1
+
+
+mfun = 
+
+     General model:
+     mfun(t) = a+b*t+y0*exp(r*t)
+     Coefficients (with 95% confidence bounds):
+       a =       251.9  (201.5, 302.2)
+       b =       20.15  (2.628, 37.67)
+       r =      0.6994  (-2.75, 4.149)
+       y0 =    -0.04382  (-1.653, 1.565)
+
+mG = 
+
+           sse: 2.3994e+03
+       rsquare: 0.9023
+           dfe: 6
+    adjrsquare: 0.8534
+          rmse: 19.9976
+
+i =
+
+     2
+
+
+mfun = 
+
+     General model:
+     mfun(t) = a+b*t+k/(1+exp(c-r*t))
+     Coefficients (with 95% confidence bounds):
+       a =       33.15  (19.41, 46.89)
+       b =        1.27  (-0.1783, 2.717)
+       k =      -5.856  (-15.89, 4.183)
+       c =      -17.47  (-73.94, 39.01)
+       r =      -2.676  (-11.24, 5.886)
+
+mG = 
+
+           sse: 13.7346
+       rsquare: 0.9648
+           dfe: 5
+    adjrsquare: 0.9367
+          rmse: 1.6574
+
+i =
+
+     3
+
+
+mfun = 
+
+     General model:
+     mfun(t) = y0*exp(r*t)+k/(1+exp(c-r*t))
+     Coefficients (with 95% confidence bounds):
+       r =      0.4318  (0.1649, 0.6988)
+       k =   1.223e+04  (1.142e+04, 1.304e+04)
+       c =      -1.154  (-1.955, -0.3536)
+       y0 =        52.4  (-91.9, 196.7)
+
+mG = 
+
+           sse: 6.0788e+05
+       rsquare: 0.9792
+           dfe: 6
+    adjrsquare: 0.9689
+          rmse: 318.2977
+
+i =
+
+     4
+
+
+mfun = 
+
+     General model:
+     mfun(t) = y0*exp(r*t)+q*sin(w*t+o)
+     Coefficients (with 95% confidence bounds):
+       r =      0.1205  (0.1104, 0.1305)
+       q =       81.43  (-3.683e+04, 3.7e+04)
+       w =      -3.111  (-17.37, 11.15)
+       o =       9.122  (-130.7, 148.9)
+       y0 =         647  (597.5, 696.4)
+
+mG = 
+
+           sse: 8.1026e+03
+       rsquare: 0.9961
+           dfe: 5
+    adjrsquare: 0.9930
+          rmse: 40.2557
+
