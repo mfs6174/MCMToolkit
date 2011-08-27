@@ -7,10 +7,10 @@ f4=fittype('y0*exp(r*t)+k/(1+exp(c-r*t))','independent',{'t'},'coefficients',{'r
 f5=fittype('y0*exp(r*t)+q*sin(w*t+o)','independent',{'t'},'coefficients',{'r','q','w','o','y0'});
 f6=fittype('q*sin(w*t+o)+k/(1+exp(c-r*t))','independent',{'t'},'coefficients',{'q','w','o','k','c','r'});
 
-x=(1:10)';
+x=(2:10)';
 [y(1,:),y(2,:),y(3,:),y(4,:)]=textread('data2.txt','%f%f%f%f');
 %f1=fittype('a+b*t','independent',{'t'},'coefficients',{'a','b'});
-for i=1:1
+for i=4:4
     if y(i,4)<y(i,3)
         d=(y(i,6)-y(i,3))/3;
         y(i,4)=y(i,3)+d;
@@ -18,37 +18,37 @@ for i=1:1
         flag=1
     end
     mr=-10;
-    [fun,G]=fit(x,y(i,1:10)',f1);
+    [fun,G]=fit(x,y(i,2:10)',f1);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     
-    [fun,G]=fit(x,y(i,1:10)',f2);
+    [fun,G]=fit(x,y(i,2:10)',f2);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     
-    [fun,G]=fit(x,y(i,1:10)',f3);
+    [fun,G]=fit(x,y(i,2:10)',f3);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,1:10)',f4);
+    [fun,G]=fit(x,y(i,2:10)',f4);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,1:10)',f5);
+    [fun,G]=fit(x,y(i,2:10)',f5);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,1:10)',f6);
+    [fun,G]=fit(x,y(i,2:10)',f6);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     i
     mfun
     mG
-    output_fig([x',11],y(i,:),mfun,'shanghai1');
+    output_fig([x(1:9)',11],y(i,2:11),mfun,'shanghai1');
 end
