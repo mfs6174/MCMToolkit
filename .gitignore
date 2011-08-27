@@ -7,5 +7,6 @@
 *.gcda
 *.gcno
 *.o
+.DS_Store
 
 
