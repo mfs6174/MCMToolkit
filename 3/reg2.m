@@ -10,7 +10,7 @@ f6=fittype('q*sin(w*t+o)+k/(1+exp(c-r*t))','independent',{'t'},'coefficients',{'
 x=(2:10)';
 [y(1,:),y(2,:),y(3,:),y(4,:)]=textread('data4.txt','%f%f%f%f');
 %f1=fittype('a+b*t','independent',{'t'},'coefficients',{'a','b'});
-for i=4:4
+for i=3:3
     if y(i,4)<y(i,3)
         d=(y(i,6)-y(i,3))/3;
         y(i,4)=y(i,3)+d;
@@ -19,37 +19,37 @@ for i=4:4
         y(i,:)
     end
     mr=-10;
-    [fun,G]=fit(x,y(i,2:10)',f1);
+    [fun,G]=fit(x,y(i,2:10)',f1,'Startpoint',[1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     
-    [fun,G]=fit(x,y(i,2:10)',f2);
+    [fun,G]=fit(x,y(i,2:10)',f2,'Startpoint',[1,1,1,0,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     
-    [fun,G]=fit(x,y(i,2:10)',f3);
+    [fun,G]=fit(x,y(i,2:10)',f3,'Startpoint',[1,1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,2:10)',f4);
+    [fun,G]=fit(x,y(i,2:10)',f4,'Startpoint',[1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,2:10)',f5);
+    [fun,G]=fit(x,y(i,2:10)',f5,'Startpoint',[1,1,0,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
         
-    [fun,G]=fit(x,y(i,2:10)',f6);
+    [fun,G]=fit(x,y(i,2:10)',f6,'Startpoint',[1,0,1,1,1,1]);
         if G.rsquare>mr
             mfun=fun;mG=G;mr=G.rsquare;
         end
     i
     mfun
     mG
-    output_fig1([x(1:9)',11],y(i,2:11),mfun,'suzhou4');
+    output_fig(2:11,y(i,2:11),mfun,'suzhou3');
 end
