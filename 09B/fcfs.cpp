@@ -76,15 +76,15 @@ void dayintian()
 
 int getcy(int tp)
 {
-  // int i;
-  // double s=0,tt=rand()%1000/1000;
-  // for (i=1;i<=20;i++)
-  // {
-  //   s+=gai[tp][i];
-  //   if (s>=tt)
-  //     return i;
-  // }
-  return gc[tp];
+  int i;
+  double s=0,tt=rand()%1000/1000;
+  for (i=1;i<=20;i++)
+  {
+    s+=gai[tp][i];
+    if (s>=tt)
+      return i;
+  }
+  //return gc[tp];
 }
 
 void dayinren(const BR &a)
@@ -224,7 +224,10 @@ void zuo(BR &a)
 void shoushu()
 {
   if ((zhou>5)&&sws)
+  {
+    cws=sh.size();
     return;
+  }
   memset(csh,0,sizeof(csh));
   BR tt;
   cs=0;
