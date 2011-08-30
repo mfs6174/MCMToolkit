@@ -45,9 +45,12 @@ struct BR
 int i,j,k,y,n,m,zu,pp;
 int shi,zhou;
 int wsh[10]={0,1,1,2,2,1};
+double gai[10][30];
+int gc[10]={0,3,3,8,10,6};
 int ed=39740;
 int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
-
+bool sws=true;
+int csh[10];
 
 BR mz[500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
@@ -64,27 +67,24 @@ int getzhou(int x)
 
 void dayintian()
 {
-  ouf1<<shi<<';'<<yzr<<';'<<cr<<';'<<cc<<';'<<cs<<';'<<cwz<<';'<<cws<<endl;
+  ouf1<<shi<<';'<<yzr<<';'<<cr<<';'<<cc<<';'<<cs<<';'<<cwz<<';'<<cws;
+  int i;
+  for (i=1;i<=5;i++)
+    ouf1<<';'<<csh[i];
+  ouf1<<endl;
 }
 
 int getcy(int tp)
 {
-  int t;
-  if (tp==1)
-  {
-    return t=3;
-  }
-  if (tp==2)
-  {
-    return t=3;
-  }
-  if (tp==3)
-  {
-    return t=8;
-  }
-  if (tp==4)
-    return t=10;
-  return t=6;
+  // int i;
+  // double s=0,tt=rand()%1000/1000;
+  // for (i=1;i<=20;i++)
+  // {
+  //   s+=gai[tp][i];
+  //   if (s>=tt)
+  //     return i;
+  // }
+  return gc[tp];
 }
 
 void dayinren(const BR &a)
@@ -194,6 +194,7 @@ void ruyuan()
 void zuo(BR &a)
 {
   cs++;
+  csh[a.ty]++;
   if (a.ty==2)
   {
     if (a.sh)
@@ -222,6 +223,9 @@ void zuo(BR &a)
 
 void shoushu()
 {
+  if ((zhou>5)&&sws)
+    return;
+  memset(csh,0,sizeof(csh));
   BR tt;
   cs=0;
   shc.clear();
