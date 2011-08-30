@@ -112,7 +112,7 @@ void read()
       continue;
     }
     zhan[i].ff=true;
-    zhan[i].tm=zhan[i].sh;
+    zhan[i].tm=tt;
     sh.push(zhan[i]);
   }
   inf>>zu;
@@ -207,7 +207,7 @@ void zuo(BR &a)
     else
     {
       a.sh=shi;
-      a.shh=shi+2;a.tm=shi+2;
+      a.tm=shi+2;
       sh.push(a);
     }
     sw=true;
