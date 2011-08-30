@@ -25,8 +25,8 @@ LANG: C++
 
 using namespace std;
 ifstream inf("data1.txt");
-ofstream ouf("ren1.txt");
-ofstream ouf1("tian1.txt");
+ofstream ouf("ren-zhoumo.txt");
+ofstream ouf1("tian-zhoumo.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int d12=39703;
@@ -49,7 +49,7 @@ double gai[10][30]={{0,0,0.29,0.51,0.20},{0,0,0.20,0.65,0.15},{0,0,0.00,0.00,0.0
 int gc[10]={0,3,3,8,10,6};
 int ed=39740;
 int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
-bool sws=false;
+bool sws=true;
 int csh[10];
 
 BR mz[500],zhan[500];
