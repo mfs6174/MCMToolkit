@@ -45,11 +45,11 @@ struct BR
 int i,j,k,y,n,m,zu,pp;
 int shi,zhou;
 int wsh[10]={0,1,1,2,2,1};
-double gai[10][30];
+double gai[10][30]={{0,0,0.29,0.51,0.20},{0,0,0.20,0.65,0.15},{0,0,0.00,0.00,0.02,0.05,0.07,0.24,0.29,0.20,0.05,0.05,0.02},{0,0,0.00,0.00,0.00,0.02,0.03,0.07,0.15,0.16,0.17,0.14,0.10,0.08,0.05,0.03},{0,0,0.00,0.04,0.18,0.22,0.20,0.16,0.09,0.05,0.05}};
 int gc[10]={0,3,3,8,10,6};
 int ed=39740;
 int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
-bool sws=true;
+bool sws=false;
 int csh[10];
 
 BR mz[500],zhan[500];
@@ -67,7 +67,7 @@ int getzhou(int x)
 
 void dayintian()
 {
-  ouf1<<shi<<';'<<yzr<<';'<<cr<<';'<<cc<<';'<<cs<<';'<<cwz<<';'<<cws;
+  ouf1<<shi<<';'<<yzr<<';'<<cr<<';'<<cc<<';'<<cs<<';'<<cwz<<';'<<cws<<"  ";
   int i;
   for (i=1;i<=5;i++)
     ouf1<<';'<<csh[i];
@@ -77,8 +77,8 @@ void dayintian()
 int getcy(int tp)
 {
   int i;
-  double s=0,tt=rand()%1000/1000;
-  for (i=1;i<=20;i++)
+  double s=0,tt=rand()%1000/1000.0;
+  for (i=2;i<=20;i++)
   {
     s+=gai[tp][i];
     if (s>=tt)
@@ -140,7 +140,7 @@ void chuyuan()
 
 void menzhen()
 {
-  for (pp;pp<=zu;pp++)
+  for (;pp<=zu;pp++)
   {
     if (mz[pp].mz>shi)
       break;
@@ -223,14 +223,13 @@ void zuo(BR &a)
 
 void shoushu()
 {
+  cs=0;  memset(csh,0,sizeof(csh));
   if ((zhou>5)&&sws)
   {
     cws=sh.size();
     return;
   }
-  memset(csh,0,sizeof(csh));
   BR tt;
-  cs=0;
   shc.clear();
   sw=false;
   while (!sh.empty())
@@ -242,7 +241,7 @@ void shoushu()
     sh.pop();
   }
   vector<BR>::iterator i=shc.begin();
-  for (i;i!=shc.end();)
+  for (;i!=shc.end();)
   {
     tt=*i;
     if (tt.ff||tt.ty==5)
@@ -314,8 +313,8 @@ int main()
 {
   srand(time(NULL));
   read();
-  shi=d12;zhou=5;yzr=79;pp=1;
-  for (shi;shi<=ed;shi++,zhou=getzhou(zhou))
+  zhou=5;yzr=79;pp=1;
+  for (shi=d12;shi<=ed;shi++,zhou=getzhou(zhou))
   {
     chuyuan();
     menzhen();
