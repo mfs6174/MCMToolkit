@@ -24,9 +24,9 @@ LANG: C++
 #define llg long long 
 
 using namespace std;
-ifstream inf("data1.in");
-ofstream ouf("ren1.out");
-ofstream ouf1("tian1.out");
+ifstream inf("data1.txt");
+ofstream ouf("ren1.txt");
+ofstream ouf1("tian1.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int d12=39703;
@@ -36,22 +36,24 @@ struct BR
   int ty,tm;
   bool ff;
   int h;
-  bool operator <(const BR &b)
+  bool operator <(const BR &b) const 
   {
-    return tm>b.ym;
+    return tm>b.tm;
   }
 };
 
 int i,j,k,y,n,m,zu,pp;
-int time,zhou;
+int shi,zhou;
 int wsh[10]={0,1,1,2,2,1};
-int ed;
-int cwz,cws,cc,cr,cs,yzr,ws;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
+int ed=39740;
+int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
 
 
 BR mz[500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
 vector<BR> shc;
+
+bool sw=false;
 
 int getzhou(int x)
 {
@@ -62,7 +64,7 @@ int getzhou(int x)
 
 void dayintian()
 {
-  ouf1<<time<<';'<<yzr<<';'<<cr<<';'<<cc<<';'<<cs<<';'<<cwz<<';'<<cws<<endl;
+  ouf1<<shi<<';'<<yzr<<';'<<cr<<';'<<cc<<';'<<cs<<';'<<cwz<<';'<<cws<<endl;
 }
 
 int getcy(int tp)
@@ -70,19 +72,19 @@ int getcy(int tp)
   int t;
   if (tp==1)
   {
-    return t;
+    return t=3;
   }
   if (tp==2)
   {
-    return t;
+    return t=3;
   }
   if (tp==3)
   {
-    return t;
+    return t=8;
   }
   if (tp==4)
-    return t;
-  return t;
+    return t=10;
+  return t=6;
 }
 
 void dayinren(const BR &a)
@@ -125,12 +127,12 @@ void chuyuan()
   while (!cy.empty())
   {
     cao=cy.top();
-    if (cao.cy>time)
+    if (cao.cy>shi)
       break;
     cc++;
     cy.pop();
     if (!cao.cy<d12)
-      cao.cy=time;
+      cao.cy=shi;
     dayinren(cao);
     yzr--;
   }
@@ -140,7 +142,7 @@ void menzhen()
 {
   for (pp;pp<=zu;pp++)
   {
-    if (mz[pp].mz>time)
+    if (mz[pp].mz>shi)
       break;
     if (mz[pp].ty==5)
     {
@@ -160,17 +162,18 @@ void ruyuan()
   cr=0;
   while (!wsdd.empty())
   {
-    if (wsdd.top.tm>time)
+    tt=wsdd.top();
+    if (tt.tm>shi)
       break;
     if (yzr>=79)
     {
-      ws++;
+      waish++;
       wsdd.pop();
       continue;
     }
-    tt=wsdd.top;
+    tt=wsdd.top();
     wsdd.pop();
-    tt.ry=time;tt.sh=time+1;
+    tt.ry=shi;tt.sh=shi+1;
     tt.tm=tt.sh;
     sh.push(tt);
     yzr++;cr++;
@@ -178,56 +181,134 @@ void ruyuan()
   while ((!ry.empty())&&(yzr<79))
   {
     tt=ry.top();
-    if (tt.mz+1<time)
+    if (tt.mz==shi-1)
       break;//不允许当天入院
     ry.pop();
-    tt.ry=time;tt.tm=time+wsh[tt.ty];
+    tt.ry=shi;tt.tm=shi+wsh[tt.ty];
     sh.push(tt);
     yzr++;cr++;
   }
   cwz=ry.size()+wsdd.size();
 }
 
+void zuo(BR &a)
+{
+  cs++;
+  if (a.ty==2)
+  {
+    if (a.sh)
+    {
+      a.shh=shi;
+      a.cy=shi+getcy(a.ty);
+      a.tm=a.cy;
+      cy.push(a);
+    }
+    else
+    {
+      a.sh=shi;
+      a.shh=shi+2;a.tm=shi+2;
+      sh.push(a);
+    }
+    sw=true;
+    return;
+  }
+  if (a.ty==1)
+    sw=true;
+  a.sh=shi;
+  a.cy=shi+getcy(a.ty);
+  a.tm=a.cy;
+  cy.push(a);
+}
+
 void shoushu()
 {
-  bool sw=false;
+  BR tt;
   cs=0;
   shc.clear();
+  sw=false;
   while (!sh.empty())
   {
-    if (sh.top.tm>time)
+    tt=sh.top();
+    if (tt.tm>shi)
       break;
-    shc.push_back(sh.top());
+    shc.push_back(tt);
     sh.pop();
   }
   vector<BR>::iterator i=shc.begin();
-  BR tt;
-  for (i;i!=shc.end();i++)
+  for (i;i!=shc.end();)
   {
     tt=*i;
-    if (tt.ff)
+    if (tt.ff||tt.ty==5)
     {
       i=shc.erase(i);
-      cs++;
+      zuo(tt);
+    }
+    else
+      i++;
+  }
+  if (zhou==1||zhou==3)
+  {
+    for (i=shc.begin();i!=shc.end();)
+    {
+      bool shan=false;
+      tt=*i;
+      if (tt.ty==1)
+      {
+        i=shc.erase(i);
+        shan=true;
+        zuo(tt);
+      }
+      if (i==shc.end())
+        break;
+      if (tt.ty==2&&((tt.sh==0&&zhou==1)||(tt.sh!=0&&zhou==3)))
+      {
+        i=shc.erase(i);
+        shan=true;
+        zuo(tt);
+      }
+      if (!shan)
+        i++;
+    }
+    if (!sw)
+    {
+      for (i=shc.begin();i!=shc.end();)
+      {
+        tt=*i;
+        if (tt.ty!=1&&tt.ty!=2)
+        {
+          i=shc.erase(i);
+          zuo(tt);
+        }
+        else
+          i++;
+      }
     }
   }
-  
-  if (zhou==1)
+  else
   {
-    return;
+    for (i=shc.begin();i!=shc.end();)
+    {
+      tt=*i;
+      if (tt.ty!=1&&tt.ty!=2)
+      {
+        i=shc.erase(i);
+        zuo(tt);
+      }
+      else
+        i++;
+    }
   }
-  if (zhou==3)
-  {
-    return;
-  }
+  for (i=shc.begin();i!=shc.end();i++)
+    sh.push(*i);
+  cws=sh.size();
 }
 
 int main()
 {
   srand(time(NULL));
   read();
-  time=d12;zhou=5;yzr=79;pp=1;
-  for (time;time<=ed;time++,zhou=getzhou(zhou))
+  shi=d12;zhou=5;yzr=79;pp=1;
+  for (shi;shi<=ed;shi++,zhou=getzhou(zhou))
   {
     chuyuan();
     menzhen();
