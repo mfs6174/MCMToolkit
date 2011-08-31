@@ -24,6 +24,7 @@ LANG: C++
 #define llg long long 
 
 using namespace std;
+ifstream inf2("data3.txt");
 ifstream inf("data1.txt");
 ifstream inf1("chuyuan.txt");
 ofstream ouf("ren2.csv");
@@ -54,7 +55,7 @@ bool sws=false;
 int csh[10];
 int ryq[10][5]={{0},{5,1,3,4,2},{5,1,3,4,2},{5,3,4,2,1},{5,3,4,2,1},{5,3,4,2,1},{5,2,1,3,4},{5,2,1,3,4}};
 int cyt[10][2000];
-BR mz[500],zhan[500];
+BR mz[1500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
 vector<BR> shc,ryc;
 int bugongping;
@@ -117,6 +118,11 @@ void read()
   inf>>zu;
   for (i=1;i<=zu;i++)
     inf>>mz[i].ty>>mz[i].mz;
+  int zuu;
+  inf2>>zuu;
+  for (i=1;i<=zuu;i++)
+    inf2>>mz[i].ty>>mz[i].mz;
+  zu+=zuu;
 }
 
 void chuyuan()

@@ -26,6 +26,7 @@ LANG: C++
 using namespace std;
 ifstream inf("data1.txt");
 ifstream inf1("chuyuan.txt");
+ifstream inf2("data3.txt");
 ofstream ouf("ren1.csv");
 ofstream ouf1("tian1.csv");
 //freopen("ti.in","r",stdin);
@@ -53,7 +54,7 @@ int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人
 bool sws=false;
 int csh[10];
 int cyt[10][2000];
-BR mz[500],zhan[500];
+BR mz[1500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
 vector<BR> shc;
 
@@ -116,6 +117,11 @@ void read()
   inf>>zu;
   for (i=1;i<=zu;i++)
     inf>>mz[i].ty>>mz[i].mz;
+  int zuu;
+  inf2>>zuu;
+  for (i=1;i<=zuu;i++)
+    inf2>>mz[i].ty>>mz[i].mz;
+  zu+=zuu;
 }
 
 void chuyuan()
