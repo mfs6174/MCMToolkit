@@ -10,5 +10,29 @@ for i=1:n
 end
 for i=1:5
     [lmd(i),in(i,:)]=poissfit(shu(i,1:61));
+    ren(i,:)=poissrnd(lmd(i),1,120);
 end
-    
+lai=zeros(120,20);
+for i=1:120
+   t=0;
+   for j=1:5
+       for k=1:ren(j,i)
+           t=t+1;
+           lai(i,t)=j;
+       end
+   end
+   a=randperm(t);
+   tt=lai(i,1:t);
+   for j=1:t
+       lai(i,a(j))=tt(j);
+   end
+   cc(i)=t;
+end
+fid=fopen('data3.txt','w');
+for i=1:120
+    for j=1:cc(i)
+        fprintf(fid,'%d   ',lai(i,j));
+        fprintf(fid,'%d\n',i+39702);
+    end
+end
+
