@@ -1,6 +1,6 @@
 shu=zeros(5,100);
 mm=zeros(5,1);
-[z,mz,ry,sh,shh,cy]=textread('datas.txt','%d%d%d%d%d%d');
+[z,mz]=textread('data_2.txt','%d%d');
 n=size(z);
 for i=1:n
 	shu(z(i),mz(i)-39641)=shu(z(i),mz(i)-39641)+1;
@@ -9,6 +9,6 @@ for i=1:n
     end
 end
 for i=1:5
-    [lmd(i),in(i,:)]=poissfit(shu(i,1:mm(i,1)));
+    [lmd(i),in(i,:)]=poissfit(shu(i,1:61));
 end
     
