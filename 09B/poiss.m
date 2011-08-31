@@ -13,11 +13,13 @@ for i=1:5
     ren(i,:)=poissrnd(lmd(i),1,120);
 end
 lai=zeros(120,20);
+c=0;
 for i=1:120
    t=0;
    for j=1:5
        for k=1:ren(j,i)
            t=t+1;
+           c=c+1;
            lai(i,t)=j;
        end
    end
@@ -29,6 +31,7 @@ for i=1:120
    cc(i)=t;
 end
 fid=fopen('data3.txt','w');
+fprintf(fid,'%d\n',c);
 for i=1:120
     for j=1:cc(i)
         fprintf(fid,'%d   ',lai(i,j));
