@@ -57,7 +57,7 @@ int cyt[10][2000];
 BR mz[500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
 vector<BR> shc,ryc;
-
+int bugongping;
 bool sw=false;
 
 int getzhou(int x)
@@ -184,8 +184,10 @@ void ruyuan()
     if (tt.mz==shi-1)
       break;//不允许当天入院
     ry.pop();
+    tt.h=ryc.size();
     ryc.push_back(tt);
   }
+  int konge=79-yzr;
   int zz;
   vector<BR>::iterator i=ryc.begin();
   for (zz=1;zz<=4;zz++)
@@ -197,6 +199,8 @@ void ruyuan()
       if (tt.ty==ryq[zhou][zz])
       {
         tt.ry=shi;tt.tm=shi+wsh[tt.ty];
+        if (tt.h>konge)
+          bugongping++;
         sh.push(tt);
         yzr++;cr++;
         i=ryc.erase(i);
@@ -340,6 +344,7 @@ int main()
     shoushu();
     dayintian();
   }
+  ouf1<<"不公平度;"<<bugongping<<endl;
   return 0;
 }
 
