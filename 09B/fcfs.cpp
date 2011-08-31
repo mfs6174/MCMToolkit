@@ -25,8 +25,9 @@ LANG: C++
 
 using namespace std;
 ifstream inf("data1.txt");
-ofstream ouf("ren1.txt");
-ofstream ouf1("tian1.txt");
+ifstream inf1("chuyuan.txt");
+ofstream ouf("ren1.csv");
+ofstream ouf1("tian1.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int d12=39703;
@@ -51,7 +52,7 @@ int ed=39740;
 int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
 bool sws=false;
 int csh[10];
-
+int cyt[10][2000];
 BR mz[500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
 vector<BR> shc;
@@ -76,15 +77,8 @@ void dayintian()
 
 int getcy(int tp)
 {
-  int i;
-  double s=0,tt=rand()%1000/1000.0;
-  for (i=2;i<=20;i++)
-  {
-    s+=gai[tp][i];
-    if (s>=tt)
-      return i;
-  }
-  //return gc[tp];
+  cyt[tp][0]++;
+  return cyt[tp][cyt[tp][0]];
 }
 
 void dayinren(const BR &a)
@@ -118,6 +112,10 @@ void read()
   inf>>zu;
   for (i=1;i<=zu;i++)
     inf>>mz[i].ty>>mz[i].mz;
+    int j;
+  for (i=1;i<=5;i++)
+    for (j=1;j<=1500;j++)
+      inf1>>cyt[i][j];
 }
 
 void chuyuan()
