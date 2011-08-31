@@ -25,8 +25,8 @@ LANG: C++
 
 using namespace std;
 ifstream inf("data1.txt");
-ofstream ouf("ren-zhoumo.txt");
-ofstream ouf1("tian-zhoumo.txt");
+ofstream ouf("ren2.txt");
+ofstream ouf1("tian2.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int d12=39703;
@@ -49,12 +49,13 @@ double gai[10][30]={{0},{0,0,0.29,0.51,0.20},{0,0,0.20,0.65,0.15},{0,0,0.00,0.00
 int gc[10]={0,3,3,8,10,6};
 int ed=39740;
 int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
-bool sws=true;
+bool sws=false;
 int csh[10];
+int ryq[10][5]={{0},{5,1,2,3,4},{5,1,2,3,4},{5,3,4,1,2},{5,3,4,1,2},{5,3,4,1,2},{5,2,1,3,4},{5,2,1,3,4}};
 
 BR mz[500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
-vector<BR> shc;
+vector<BR> shc,ryc;
 
 bool sw=false;
 
@@ -178,16 +179,35 @@ void ruyuan()
     sh.push(tt);
     yzr++;cr++;
   }
-  while ((!ry.empty())&&(yzr<79))
+  ryc.clear();
+  while ((!ry.empty()))
   {
     tt=ry.top();
     if (tt.mz==shi-1)
       break;//不允许当天入院
     ry.pop();
-    tt.ry=shi;tt.tm=shi+wsh[tt.ty];
-    sh.push(tt);
-    yzr++;cr++;
+    ryc.push_back(tt);
   }
+  int zz;
+  vector<BR>::iterator i=ryc.begin();
+  for (zz=1;zz<=4;zz++)
+    for (i=ryc.begin();i!=ryc.end();)
+    {
+      if (yzr>=79)
+        break;
+      tt=*i;
+      if (tt.ty==ryq[zhou][zz])
+      {
+        tt.ry=shi;tt.tm=shi+wsh[tt.ty];
+        sh.push(tt);
+        yzr++;cr++;
+        i=ryc.erase(i);
+      }
+      else
+        i++;
+    }
+  for (i=ryc.begin();i!=ryc.end();i++)
+    ry.push(*i);
   cwz=ry.size()+wsdd.size();
 }
 
