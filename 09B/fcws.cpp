@@ -25,8 +25,8 @@ LANG: C++
 
 using namespace std;
 ifstream inf("data1.txt");
-ofstream ouf("ren2.txt");
-ofstream ouf1("tian2.txt");
+ofstream ouf("ren2.csv");
+ofstream ouf1("tian2.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int d12=39703;
@@ -51,7 +51,7 @@ int ed=39740;
 int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
 bool sws=false;
 int csh[10];
-int ryq[10][5]={{0},{5,1,2,3,4},{5,1,2,3,4},{5,3,4,1,2},{5,3,4,1,2},{5,3,4,1,2},{5,2,1,3,4},{5,2,1,3,4}};
+int ryq[10][5]={{0},{5,1,3,4,2},{5,1,3,4,2},{5,3,4,2,1},{5,3,4,2,1},{5,3,4,2,1},{5,2,1,3,4},{5,2,1,3,4}};
 
 BR mz[500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
