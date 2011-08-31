@@ -88,6 +88,10 @@ void dayinren(const BR &a)
 
 void read()
 {
+  int j;
+  for (i=1;i<=5;i++)
+    for (j=1;j<=1500;j++)
+      inf1>>cyt[i][j];
   inf>>zu;
   int i,tt;
   for (i=1;i<=zu;i++)
@@ -112,10 +116,6 @@ void read()
   inf>>zu;
   for (i=1;i<=zu;i++)
     inf>>mz[i].ty>>mz[i].mz;
-    int j;
-  for (i=1;i<=5;i++)
-    for (j=1;j<=1500;j++)
-      inf1>>cyt[i][j];
 }
 
 void chuyuan()
