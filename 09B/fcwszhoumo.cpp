@@ -27,8 +27,8 @@ using namespace std;
 ifstream inf2("data3.txt");
 ifstream inf("data1.txt");
 ifstream inf1("chuyuan.txt");
-ofstream ouf("ren2-1-3.csv");
-ofstream ouf1("tian2-1-3.csv");
+ofstream ouf("ren2-3-5.csv");
+ofstream ouf1("tian2-3-5.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int d12=39703;
@@ -55,7 +55,7 @@ bool sws=false;
 int csh[10];
 int ryq[10][5]={{0},{5,1,3,4,2},{5,1,3,4,2},{5,3,4,2,1},{5,2,1,3,4},{5,2,1,3,4},{5,2,1,3,4},{5,2,1,3,4}};
 int ryq2[10][5]={{0},{5,2,1,3,4},{5,1,3,4,2},{5,1,3,4,2},{5,3,4,2,1},{5,3,4,2,1},{5,3,4,2,1},{5,2,1,3,4}};
-int ryq3[10][5]={{0},{5,1,3,4,2},{5,1,3,4,2},{5,3,4,2,1},{5,2,1,3,4},{5,2,1,3,4},{5,2,1,3,4},{5,2,1,3,4}};
+int ryq3[10][5]={{0},{5,2,1,3,4},{5,2,1,3,4},{5,1,3,4,2},{5,1,3,4,2},{5,3,4,2,1},{5,3,4,2,1},{5,3,4,2,1}};
 int cyt[10][2000];
 BR mz[1500],zhan[500];
 priority_queue<BR> ry,sh,cy,wsdd;
@@ -325,7 +325,7 @@ void shoushu()
     else
       i++;
   }
-  int d1=1,d2=3;
+  int d1=3,d2=5;
   if (zhou==d1||zhou==d2)
   {
     for (i=shc.begin();i!=shc.end();)
