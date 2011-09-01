@@ -34,7 +34,7 @@ const int maxlongint=2147483647;
 const int d12=39703;
 struct BR
 {
-  int mz,ry,sh,shh,cy,dcy;
+  int mz,ry,sh,shh,cy,dcy,ery;
   int ty,tm;
   bool ff;
   int h,zh;
@@ -50,7 +50,7 @@ int wsh[10]={0,1,1,2,2,1};
 double gai[10][30]={{0},{0,0,0.29,0.51,0.20},{0,0,0.20,0.65,0.15},{0,0,0.00,0.00,0.02,0.05,0.07,0.24,0.29,0.20,0.05,0.05,0.02},{0,0,0.00,0.00,0.00,0.02,0.03,0.07,0.15,0.16,0.17,0.14,0.10,0.08,0.05,0.03},{0,0,0.00,0.04,0.18,0.22,0.20,0.16,0.09,0.05,0.05}};
 int gc[10]={0,3,3,8,10,6};
 int ed=39821;
-int cwz,cws,cc,cr,cs,yzr,waish;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
+int cwz,cws,cc,cr,cs,yzr,waish,crz,ts;//等待住院人数 等待手术人数 出院人数 入院人数 手术人数 医院中人数 转院人数
 bool sws=false;
 int csh[10];
 int cyt[10][2000];
@@ -59,6 +59,7 @@ priority_queue<BR> ry,sh,cy,wsdd;
 vector<BR> shc;
 
 bool sw=false;
+double pa=8.67;
 
 int getzhou(int x)
 {
@@ -70,6 +71,11 @@ int getzhou(int x)
 void dayintian()
 {
   ouf1<<shi<<';'<<yzr<<';'<<cr<<';'<<cc<<';'<<cs<<';'<<cwz<<';'<<cws<<"  ";
+  if (shi>39703)
+  {
+    crz+=cr;
+    ts++;
+  }
   int i;
   for (i=1;i<=5;i++)
     ouf1<<';'<<csh[i];
@@ -82,9 +88,14 @@ int getcy1(int tp)
   return cyt[tp][cyt[tp][0]];
 }
 
+int getcwz()
+{
+  return cwz=ry.size()+wsdd.size();
+}
+
 void dayinren(const BR &a)
 {
-  ouf<<a.ty<<';'<<a.mz<<';'<<a.ry<<';'<<a.sh<<';'<<a.shh<<';'<<a.cy<<endl;
+  ouf<<a.ty<<';'<<a.mz<<';'<<a.ry<<';'<<a.sh<<';'<<a.shh<<';'<<a.cy<<';'<<(a.ry-a.ery)<<endl;
 }
 
 void read()
@@ -160,10 +171,12 @@ void menzhen()
     if (mz[pp].ty==5)
     {
       mz[pp].tm=mz[pp].mz+1;
+      mz[pp].ery=mz[pp].mz+(int)(getcwz()/pa);
       wsdd.push(mz[pp]);
       continue;
     }
     mz[pp].tm=mz[pp].mz;
+    mz[pp].ery=mz[pp].mz+(int)(getcwz()/pa);
     ry.push(mz[pp]);
   }
   
@@ -336,6 +349,7 @@ int main()
     dayintian();
   }
   ouf1<<"外伤转院;"<<waish<<endl;
+  cout<<crz/(ts+0.0)<<endl;
   return 0;
 }
 
