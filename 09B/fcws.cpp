@@ -34,10 +34,10 @@ const int maxlongint=2147483647;
 const int d12=39703;
 struct BR
 {
-  int mz,ry,sh,shh,cy;
+  int mz,ry,sh,shh,cy,dcy;
   int ty,tm;
   bool ff;
-  int h;
+  int h,zh;
   bool operator <(const BR &b) const 
   {
     return tm>b.tm;
@@ -77,7 +77,7 @@ void dayintian()
   ouf1<<endl;
 }
 
-int getcy(int tp)
+int getcy1(int tp)
 {
   cyt[tp][0]++;
   return cyt[tp][cyt[tp][0]];
@@ -99,13 +99,14 @@ void read()
   for (i=1;i<=zu;i++)
   {
     inf>>zhan[i].ty>>zhan[i].mz>>zhan[i].ry>>zhan[i].sh>>zhan[i].shh;
+    zhan[i].zh=i;
     if (zhan[i].ty==2)
       tt=zhan[i].shh;
     else
       tt=zhan[i].sh;
     if (tt<d12)
     {
-      tt+=getcy(zhan[i].ty);
+      tt+=getcy1(zhan[i].ty);
       zhan[i].cy=tt;
       zhan[i].tm=tt;
       cy.push(zhan[i]);
@@ -117,11 +118,19 @@ void read()
   }
   inf>>zu;
   for (i=1;i<=zu;i++)
+  {
     inf>>mz[i].ty>>mz[i].mz;
+    mz[i].zh=79+i;
+    mz[i].dcy=getcy1(mz[i].ty);
+  }
   int zuu;
   inf2>>zuu;
   for (i=zu+1;i<=zu+zuu;i++)
+  {
     inf2>>mz[i].ty>>mz[i].mz;
+    mz[i].zh=79+i;
+    mz[i].dcy=getcy1(mz[i].ty);
+  }
   zu+=zuu;
 }
 
@@ -228,7 +237,7 @@ void zuo(BR &a)
     if (a.sh)
     {
       a.shh=shi;
-      a.cy=shi+getcy(a.ty);
+      a.cy=shi+a.dcy;
       a.tm=a.cy;
       cy.push(a);
     }
@@ -244,7 +253,7 @@ void zuo(BR &a)
   if (a.ty==1)
     sw=true;
   a.sh=shi;
-  a.cy=shi+getcy(a.ty);
+  a.cy=shi+a.dcy;
   a.tm=a.cy;
   cy.push(a);
 }
