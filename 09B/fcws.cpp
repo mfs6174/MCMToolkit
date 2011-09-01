@@ -60,7 +60,8 @@ priority_queue<BR> ry,sh,cy,wsdd;
 vector<BR> shc,ryc;
 int bugongping;
 bool sw=false;
-double pa=9.29;
+double pa[10]={0,1.61,2.39,1.28,3.01,1.11};
+int tongji[10];
 
 int getzhou(int x)
 {
@@ -158,9 +159,28 @@ void chuyuan()
   }
 }
 
-int getcwz()
+int getcwz(int x)
+{ 
+if (x==5)
+  return wsdd.size();
+else
 {
-  return cwz=ry.size()+wsdd.size();
+	int rt=0;
+	vector<BR> tmp;
+	BR tt;
+	tmp.clear();
+	while (!ry.empty())
+	{
+		tt=ry.top();
+		tmp.push_back(tt);
+		ry.pop();
+		if (tt.ty==x)
+			rt++;
+	}
+	for (vector<BR>::iterator i=tmp.begin();i!=tmp.end();i++)
+		ry.push(*i);
+	return rt;
+}
 }
 
 void menzhen()
@@ -172,12 +192,12 @@ void menzhen()
     if (mz[pp].ty==5)
     {
       mz[pp].tm=mz[pp].mz+1;
-      mz[pp].ery=mz[pp].mz+(int)(getcwz()/pa);
+      mz[pp].ery=mz[pp].mz+(int)(getcwz(mz[pp].ty)/pa[mz[pp].ty]);
       wsdd.push(mz[pp]);
       continue;
     }
     mz[pp].tm=mz[pp].mz;
-    mz[pp].ery=mz[pp].mz+(int)(getcwz()/pa);
+    mz[pp].ery=mz[pp].mz+(int)(getcwz(mz[pp].ty)/pa[mz[pp].ty]);
     ry.push(mz[pp]);
   }
 }
@@ -201,6 +221,7 @@ void ruyuan()
     wsdd.pop();
     tt.ry=shi;tt.sh=shi+1;
     tt.tm=tt.sh;
+     tongji[tt.ty]++;
     sh.push(tt);
     yzr++;cr++;
   }
@@ -228,6 +249,7 @@ void ruyuan()
         tt.ry=shi;tt.tm=shi+wsh[tt.ty];
         if (tt.h>konge)
           bugongping++;
+	tongji[tt.ty]++;
         sh.push(tt);
         yzr++;cr++;
         i=ryc.erase(i);
@@ -373,7 +395,9 @@ int main()
   }
   ouf1<<"不公平度;"<<bugongping<<endl;
   ouf1<<"外伤转院;"<<waish<<endl;
-  cout<<crz/(ts+0.0)<<endl;
+int i;
+for (i=1;i<=5;i++)
+  cout<<tongji[i]/(ts+0.0)<<endl;
   return 0;
 }
 
