@@ -119,7 +119,7 @@ void read()
     inf>>mz[i].ty>>mz[i].mz;
   int zuu;
   inf2>>zuu;
-  for (i=1;i<=zuu;i++)
+  for (i=zu+1;i<=zu+zuu;i++)
     inf2>>mz[i].ty>>mz[i].mz;
   zu+=zuu;
 }
