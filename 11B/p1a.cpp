@@ -37,11 +37,11 @@ struct D
 };
 
 int i,j,k,t,n,m,mz,tt;
-double tu[100][100],d[100][100];
+double tu[1000][1000],d[1000][1000];
 D dian[1000];
 double mint[1000];
 int tong[1000],shu[1000];
-vector<int> guan[100];
+vector<int> guan[1000];
 
 inline double dst(D &a,D &b)
 {
