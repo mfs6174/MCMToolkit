@@ -26,7 +26,7 @@ using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
-ofstream ouf("rs2.csv");
+ofstream ouf("rs4.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
