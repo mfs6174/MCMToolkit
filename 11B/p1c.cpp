@@ -45,6 +45,9 @@ int tong[1000],shu[1000];
 vector<int> guan[1000];
 int ff[100],ji[1000],rr[100],rrj[100],zong[1000];
 bool cnot[1000];
+int jia=3;
+int se[20];
+bool fl;
 
 inline double dst(D &a,D &b)
 {
@@ -58,7 +61,8 @@ inline double gettime(double d)
 
 void floyd(int a,int n)
 {
-  int i,j,k,t;
+  int i,j,k;
+  double t;
   for (i=a;i<=n;i++)
     for (j=a;j<=n;j++)
       d[i][j]=tu[i][j];
@@ -73,23 +77,28 @@ void floyd(int a,int n)
         }
 }
 
-void getmin(int a,int b,int x)
+void getmin(int x)
 {
+  if (dian[x].f)
+    return;
   int i,t;
   double mm=maxlongint;
-  for (i=a;i<=b;i++)
+  for (i=1;i<=92;i++)
   {
-    if (d[i][x]<mm)
+    if (dian[i].f)
     {
-      mm=d[i][x];
-      t=i;
-    }
-    if (gettime(d[i][x])<=3.0)
-    {
-      guan[x].push_back(i);
-      tong[x]++;
-      zong[i]++;
-      zongr[i]+=dian[x].r;
+      if (d[i][x]<mm)
+      {
+        mm=d[i][x];
+        t=i;
+      }
+      if (gettime(d[i][x])<=3.0)
+      {
+        guan[x].push_back(i);
+        tong[x]++;
+        zong[i]++;
+        zongr[i]+=dian[x].r;
+      }
     }
   }
   if (gettime(mm)>3.0)
@@ -98,6 +107,7 @@ void getmin(int a,int b,int x)
     rt[t]+=dian[x].r;
     ff[x]=t;
     cnot[x]=true;
+    fl=false;
   }
 }
 
@@ -108,24 +118,24 @@ void dfs(int x)
   {
     int md=-1,mx=maxlongint;
     double mdd=-1,mdx=maxlongint;
-    for (i=1;i<=20;i++)
+    for (i=1;i<=92;i++)
+      if (dian[i].f)
+      {
+        md=max(md,ji[i]);
+        mx=min(mx,ji[i]);
+        mdd=max(mdd,rt[i]);
+        mdx=min(mdx,rt[i]);
+      }
+    if (fl&&(mdd-mdx<mmd))
     {
-      md=max(md,ji[i]);
-      mx=min(mx,ji[i]);
-      mdd=max(mdd,rt[i]);
-      mdx=min(mdx,rt[i]);
-    }
-    mmd=mdd-mdx;
-    if (md-mx<mm)
-    {
-      mm=md-mx;
+      mm=md-mx;mmd=mdd-mdx;
       memcpy(rr,ff,sizeof(rr));
       memcpy(rrj,ji,sizeof(rrj));
       memcpy(rrt,rt,sizeof(rrt));
     }
     return;
   }
-  if (cnot[x])
+  if (cnot[x]||dian[x].f)
     dfs(x+1);
   else
   {
@@ -156,6 +166,50 @@ void dfs(int x)
   }
 }
 
+void cal()
+{
+  int i;
+  memset(ji,0,sizeof(ji));
+  memset(ff,0,sizeof(ff));
+  memset(tong,0,sizeof(tong));
+  memset(zong,0,sizeof(zong));
+  memset(cnot,0,sizeof(cnot));
+  fl=true;
+  for (i=1;i<=jia;i++)
+    dian[se[i]+20].f=true;
+  for (i=1;i<=95;i++)
+  {
+    rt[i]=0;
+    zongr[i]=0;
+    guan[i].clear();
+    if (dian[i].f)
+    {
+      ji[i]++;
+      ff[i]=i;
+      rt[i]+=dian[i].r;
+    }
+  }
+  for (i=21;i<=92;i++)
+    getmin(i);
+  mm=maxlongint;
+  dfs(21);
+  for (i=1;i<=jia;i++)
+    dian[se[i]+20].f=false;
+}
+
+void zuhe(int x,int m,int n)
+{
+  int i;
+  for (i=se[x-1]+1;i<=n-(m-x);i++)
+  {
+    se[x]=i;
+    if (x==m)
+      cal();
+    else
+      zuhe(x+1,m,n);
+  }
+}
+
 int main()
 {
   inf>>n;
@@ -166,6 +220,7 @@ int main()
   {
     inf>>dian[i].x>>dian[i].y;
     inf4>>dian[i].r;
+    tu[i][i]=0;
   }
   infb>>m;
   for (i=1;i<=m;i++)
@@ -173,22 +228,20 @@ int main()
     infb>>t>>tt;
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
+  for (i=1;i<=20;i++)
+    dian[i].r=true;
   floyd(1,n);
-  
-  for (i=21;i<=92;i++)
-    getmin(1,20,i);
-  for (i=1;i<=20;i++)
+  zuhe(1,jia,72);
+  if (fl)
   {
-    ji[i]++;
-    rt[i]+=dian[i].r;
+    cout<<mm<<' '<<mmd<<endl;
+    for (i=1;i<=92;i++)
+      if (!dian[i].f)
+        ouf<<i<<';'<<fixed<<setprecision(4)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
+    for (i=1;i<=92;i++)
+      if (dian[i].f)
+        ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
   }
-  mm=maxlongint;
-  dfs(21);
-  cout<<mm<<' '<<mmd<<endl;
-  for (i=21;i<=92;i++)
-    ouf<<i<<';'<<fixed<<setprecision(4)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
-  for (i=1;i<=20;i++)
-    ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
   return 0;
 }
 
