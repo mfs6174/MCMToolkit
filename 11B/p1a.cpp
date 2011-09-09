@@ -56,7 +56,8 @@ inline double gettime(double d)
 
 void floyd(int a,int n)
 {
-  int i,j,k,t;
+  int i,j,k;
+  double t;
   for (i=a;i<=n;i++)
     for (j=a;j<=n;j++)
       d[i][j]=tu[i][j];

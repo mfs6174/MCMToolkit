@@ -59,7 +59,8 @@ inline double gettime(double d)
 
 void floyd(int a,int n)
 {
-  int i,j,k,t;
+  int i,j,k;
+  double t;
   for (i=a;i<=n;i++)
     for (j=a;j<=n;j++)
       d[i][j]=tu[i][j];
@@ -159,7 +160,7 @@ int main()
     }
   cout<<gettime(mint[0])<<endl;
   for (i=1;i<=q;i++)
-    ouf<<you[i]<<';'<<duiy[i]<<';'<<fixed<<setprecision(2)<<gettime(d[you[i]][duiy[i]])<<endl;
+    ouf<<you[i]<<';'<<duiy[i]<<';'<<fixed<<setprecision(4)<<gettime(d[you[i]][duiy[i]])<<endl;
   return 0;
 }
 

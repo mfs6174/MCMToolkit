@@ -58,8 +58,7 @@ inline double gettime(double d)
 
 void floyd(int a,int n)
 {
-  int i,j,k;
-  double t;
+  int i,j,k,t;
   for (i=a;i<=n;i++)
     for (j=a;j<=n;j++)
       d[i][j]=tu[i][j];
@@ -175,6 +174,7 @@ int main()
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
   floyd(1,n);
+  
   for (i=21;i<=92;i++)
     getmin(1,20,i);
   for (i=1;i<=20;i++)
@@ -183,14 +183,10 @@ int main()
     rt[i]+=dian[i].r;
   }
   mm=maxlongint;
-  // for (i=21;i<=92;i++)
-  //   for (j=0;j<tong[i];j++)
-  //     if (guan[i][j]==10||guan[i][j]==12||guan[i][j]==14)
-  //       cout<<i<<' '<<guan[i][j]<<endl;
   dfs(21);
   cout<<mm<<' '<<mmd<<endl;
   for (i=21;i<=92;i++)
-    ouf<<i<<';'<<fixed<<setprecision(3)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
+    ouf<<i<<';'<<fixed<<setprecision(4)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
   for (i=1;i<=20;i++)
     ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
   return 0;
