@@ -118,13 +118,21 @@ void dfs(int x)
   if (cnot[x])
     dfs(x+1);
   else
+  {
+    int  mmm=maxlongint,t;
     for (i=0;i<tong[x];i++)
     {
-      ff[x]=guan[x][i];
-      ji[guan[x][i]]++;
-      dfs(x+1);
-      ji[guan[x][i]]--;
+      if (ji[guan[x][i]]<mmm)
+      {
+        mmm=ji[guan[x][i]];
+        t=guan[x][i];
+      }
     }
+    ff[x]=t;
+    ji[t]++;
+    dfs(x+1);
+    ji[t]--;
+  }
 }
 
 int main()
