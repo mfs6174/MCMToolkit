@@ -175,13 +175,13 @@ int main()
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
   floyd(1,n);
-  for (i=21;i<=92;i++)
-    getmin(1,20,i);
   for (i=1;i<=20;i++)
   {
-    ji[i]++;
-    rt[i]+=dian[i].r;
+    ji[i]++;zong[i]++;
+    rt[i]+=dian[i].r;zongr[i]+=dian[i].r;
   }
+  for (i=21;i<=92;i++)
+    getmin(1,20,i);
   mm=maxlongint;
   // for (i=21;i<=92;i++)
   //   for (j=0;j<tong[i];j++)
