@@ -25,24 +25,27 @@ LANG: C++
 using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
-ifstream inf4("data4.txt");
-ofstream ouf("rs1.csv");
+ifstream inf5("data5.txt");
+ofstream ouf("rs3.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
 struct D
 {
-  int h,q;
+  int h,q,c;
   double x,y,r;
   bool f;
+  int dao[1000];
 };
 
-int i,j,k,t,n,m,mz,tt;
+int i,j,k,t,n,m,q,tt;
 double tu[1000][1000],d[1000][1000];
 D dian[1000];
 double mint[1000],rt[1000];
 int tong[1000],shu[1000];
 vector<int> guan[1000];
+int you[1000];
+vector<double> pai;
 
 inline double dst(D &a,D &b)
 {
@@ -70,23 +73,58 @@ void floyd(int a,int n)
             d[i][j]=t;
         }
 }
+int duiz[1000],duiy[1000];
+bool yong[1000];
 
-void getmin(int a,int b,int x)
+bool xiong(int x)
 {
-  int i,t;
-  double mm=maxlongint;
-  for (i=a;i<=b;i++)
-    if (d[i][x]<mm)
+  int i,tt;
+  //进入的点都是左点
+  for (i=1;i<=dian[x].c;i++)//遍历所连所有右点
+  {
+    tt=dian[x].dao[i];
+    if ((!yong[tt])&&(duiy[tt]!=x))//未重复出现且没有和此点匹配（保证交替1）
     {
-      mm=d[i][x];
-      t=i;
+      yong[tt]=true;
+      if ((!duiy[tt])||xiong(duiy[tt]))//如果是未匹配点，可作为终点，否则顺着它匹配的左点找增广轨（保证交替2），如果找到：
+      {
+        duiz[x]=tt;
+        duiy[tt]=x;//连接左右，右与原匹配的边自动删除
+        return true;
+      }
     }
-  tong[t]++;
-  rt[t]+=dian[x].r;
-  guan[t].push_back(x);
-  mint[x]=gettime(mm);
-  shu[x]=t;
+  }
+  return false;//木有找到增广轨
 }
+
+bool check(double ma)
+{
+  int i,j;
+  for (i=1;i<=20;i++)
+  {
+    dian[i].c=0;
+    for (j=1;j<=q;j++)
+      if (d[i][you[j]]<=ma)
+      {
+        dian[i].c++;
+        dian[i].dao[dian[i].c]=j;
+      }
+  }
+  memset(duiz,0,sizeof(duiz));
+  memset(duiy,0,sizeof(duiy));
+  int cc=0;
+  for (i=1;i<=20;i++)
+    if (!duiz[i])
+    {
+      memset(yong,0,sizeof(yong));
+      if (xiong(t))//找到增广轨
+          cc++;//匹配数+1
+	}
+  if (cc>=13)
+    return true;
+  else
+    return false;
+} 
 
 int main()
 {
@@ -97,7 +135,7 @@ int main()
   for (i=1;i<=n;i++)
   {
     inf>>dian[i].x>>dian[i].y;
-    inf4>>dian[i].r;
+    inf5>>dian[i].r;
   }
   infb>>m;
   for (i=1;i<=m;i++)
@@ -105,18 +143,23 @@ int main()
     infb>>t>>tt;
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
+  inf5>>q;
+  for (i=1;i<=q;i++)
+    inf5>>you[i];
   floyd(1,n);
-  for (i=21;i<=92;i++)
-    getmin(1,20,i);
   for (i=1;i<=20;i++)
-  {
-    tong[i]++;
-    rt[i]+=dian[i].r;
-  }
-  for (i=21;i<=92;i++)
-    ouf<<i<<';'<<fixed<<setprecision(2)<<mint[i]<<';'<<shu[i]<<endl;
-  for (i=1;i<=20;i++)
-    ouf<<i<<';'<<tong[i]<<';'<<rt[i]<<endl;
+    for (j=1;j<=q;j++)
+      pai.push_back(d[i][you[j]]);
+  sort(pai.begin(),pai.end());
+  for (i=0;i<pai.size();i++)
+    if (check(pai[i]))
+    {
+      mint[0]=pai[i];
+      break;
+    }
+  cout<<mint[0]<<endl;
+  for (i=1;i<=q;i++)
+    ouf<<you[i]<<';'<<duiy[i]<<';'<<fixed<<setprecision(2)<<d[you[i]][duiy[i]]<<endl;
   return 0;
 }
 
