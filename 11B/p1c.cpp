@@ -40,14 +40,14 @@ struct D
 int i,j,k,t,n,m,mm,tt;
 double tu[1000][1000],d[1000][1000];
 D dian[1000];
-double mint[1000],rt[1000],rrt[1000],zongr[1000],mmd;
+double mint[1000],rt[1000],rrt[1000],zongr[100],zongrs[100],mmd;
 int tong[1000],shu[1000];
 vector<int> guan[1000];
-int ff[100],ji[1000],rr[100],rrj[100],zong[1000];
+int ff[100],ji[1000],rr[100],rrj[100],zong[100],zongs[100];
 bool cnot[1000];
-int jia=3;
+int jia=3,cn,cmn=10,cnotp;
 int se[20];
-bool fl;
+bool fl,tbl[200];
 
 inline double dst(D &a,D &b)
 {
@@ -108,6 +108,7 @@ void getmin(int x)
     ff[x]=t;
     cnot[x]=true;
     fl=false;
+    cn++;
   }
 }
 
@@ -126,12 +127,20 @@ void dfs(int x)
         mdd=max(mdd,rt[i]);
         mdx=min(mdx,rt[i]);
       }
-    if (fl&&(mdd-mdx<mmd))
+    if ((abs(mdd-mdx-mmd)>1e-3)&&(mdd-mdx<mmd))
     {
       mm=md-mx;mmd=mdd-mdx;
       memcpy(rr,ff,sizeof(rr));
       memcpy(rrj,ji,sizeof(rrj));
       memcpy(rrt,rt,sizeof(rrt));
+      memcpy(zongs,zong,sizeof(zongs));
+      memcpy(zongrs,zongr,sizeof(zongrs));
+      for (int k=1;k<=92;k++)
+      {
+        tbl[k]=dian[k].f;
+        if (cnot[k])
+          cnotp=k;
+      }
     }
     return;
   }
@@ -161,8 +170,8 @@ void dfs(int x)
     ji[t]++;
     rt[t]+=dian[x].r;
     dfs(x+1);
-    ji[t]--;
-    rt[t]-=dian[x].r;
+    //ji[t]--;
+    //rt[t]-=dian[x].r;
   }
 }
 
@@ -175,6 +184,7 @@ void cal()
   memset(zong,0,sizeof(zong));
   memset(cnot,0,sizeof(cnot));
   fl=true;
+  cn=0;
   for (i=1;i<=jia;i++)
     dian[se[i]+20].f=true;
   for (i=1;i<=95;i++)
@@ -187,12 +197,17 @@ void cal()
       ji[i]++;
       ff[i]=i;
       rt[i]+=dian[i].r;
+      zong[i]++;
+      zongr[i]+=dian[i].r;
     }
   }
   for (i=21;i<=92;i++)
     getmin(i);
-  mm=maxlongint;
-  dfs(21);
+  if (cn<=cmn)
+  {
+    cmn=cn;
+    dfs(21);
+  }
   for (i=1;i<=jia;i++)
     dian[se[i]+20].f=false;
 }
@@ -229,18 +244,25 @@ int main()
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
   for (i=1;i<=20;i++)
-    dian[i].r=true;
+    dian[i].f=true;
   floyd(1,n);
+  mm=maxlongint;mmd=maxlongint;
   zuhe(1,jia,72);
-  if (fl)
+  //  if (fl)
   {
-    cout<<mm<<' '<<mmd<<endl;
+    cout<<cmn<<' '<<mm<<' '<<mmd<<' '<<cnotp<<endl;
     for (i=1;i<=92;i++)
-      if (!dian[i].f)
+      if (!tbl[i])
         ouf<<i<<';'<<fixed<<setprecision(4)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
     for (i=1;i<=92;i++)
-      if (dian[i].f)
-        ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
+      if (tbl[i])
+      {
+        ouf<<i<<';'<<zongs[i]<<';'<<rrj[i]<<';'<<zongrs[i]<<';'<<rrt[i]<<" ;";
+        for (j=1;j<=92;j++)
+          if (rr[j]==i)
+            ouf<<j<<';';
+        ouf<<endl;
+      }
   }
   return 0;
 }
