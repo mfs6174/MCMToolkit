@@ -40,7 +40,7 @@ struct D
 int i,j,k,t,n,m,mm,tt;
 double tu[1000][1000],d[1000][1000];
 D dian[1000];
-double mint[1000];
+double mint[1000],rt[1000],rrt[1000],zongr[1000],mmd;
 int tong[1000],shu[1000];
 vector<int> guan[1000];
 int ff[100],ji[1000],rr[100],rrj[100],zong[1000];
@@ -89,11 +89,13 @@ void getmin(int a,int b,int x)
       guan[x].push_back(i);
       tong[x]++;
       zong[i]++;
+      zongr[i]+=dian[x].r;
     }
   }
   if (gettime(mm)>3.0)
   {
     ji[t]++;
+    rt[t]+=dian[x].r;
     ff[x]=t;
     cnot[x]=true;
   }
@@ -105,16 +107,21 @@ void dfs(int x)
   if (x>92)
   {
     int md=-1,mx=maxlongint;
+    double mdd=-1,mdx=maxlongint;
     for (i=1;i<=20;i++)
     {
       md=max(md,ji[i]);
       mx=min(mx,ji[i]);
+      mdd=max(mdd,rt[i]);
+      mdx=min(mdx,rt[i]);
     }
+    mmd=mdd-mdx;
     if (md-mx<mm)
     {
       mm=md-mx;
       memcpy(rr,ff,sizeof(rr));
       memcpy(rrj,ji,sizeof(rrj));
+      memcpy(rrt,rt,sizeof(rrt));
     }
     return;
   }
@@ -122,18 +129,19 @@ void dfs(int x)
     dfs(x+1);
   else
   {
-    int  mmm=maxlongint,t,mm2=0;
+    double  mmm=maxlongint,mm2=0;
+    int t;
     for (i=0;i<tong[x];i++)
     {
-      if (ji[guan[x][i]]<mmm)
+      if (rt[guan[x][i]]<mmm)
       {
-        mmm=ji[guan[x][i]];
-        mm2=zong[guan[x][i]];
+        mmm=rt[guan[x][i]];
+        mm2=zongr[guan[x][i]];
         t=guan[x][i];
       }
       else
-        if (ji[guan[x][i]]==mmm)
-          if (zong[guan[x][i]]<mm2)
+        if (rt[guan[x][i]]==mmm)
+          if (zongr[guan[x][i]]<mm2)
           {
             mm2=zong[guan[x][i]];
             t=guan[x][i];
@@ -141,8 +149,10 @@ void dfs(int x)
     }
     ff[x]=t;
     ji[t]++;
+    rt[t]+=dian[x].r;
     dfs(x+1);
     ji[t]--;
+    rt[t]-=dian[x].r;
   }
 }
 
@@ -166,17 +176,22 @@ int main()
   floyd(1,n);
   for (i=21;i<=92;i++)
     getmin(1,20,i);
+  for (i=1;i<=20;i++)
+  {
+    ji[i]++;
+    rt[i]+=dian[i].r;
+  }
   mm=maxlongint;
-  for (i=21;i<=92;i++)
-    for (j=0;j<tong[i];j++)
-      if (guan[i][j]==10||guan[i][j]==12||guan[i][j]==14)
-        cout<<i<<' '<<guan[i][j]<<endl;
+  // for (i=21;i<=92;i++)
+  //   for (j=0;j<tong[i];j++)
+  //     if (guan[i][j]==10||guan[i][j]==12||guan[i][j]==14)
+  //       cout<<i<<' '<<guan[i][j]<<endl;
   dfs(21);
-  cout<<mm<<endl;
+  cout<<mm<<' '<<mmd<<endl;
   for (i=21;i<=92;i++)
     ouf<<i<<';'<<fixed<<setprecision(2)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
   for (i=1;i<=20;i++)
-    ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<endl;
+    ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
   return 0;
 }
 
