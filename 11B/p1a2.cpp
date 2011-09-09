@@ -25,14 +25,15 @@ LANG: C++
 using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
-ofstream ouf("rs1.csv");
+ifstream inf4("data4.txt");
+ofstream ouf("rs2.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
 struct D
 {
   int h,q;
-  double x,y;
+  double x,y,r;
   bool f;
 };
 
@@ -42,7 +43,7 @@ D dian[1000];
 double mint[1000];
 int tong[1000],shu[1000];
 vector<int> guan[1000];
-int ff[100],ji[1000],rr[100];
+int ff[100],ji[1000],rr[100],rrj[100],zong[1000];
 bool cnot[1000];
 
 inline double dst(D &a,D &b)
@@ -87,6 +88,7 @@ void getmin(int a,int b,int x)
     {
       guan[x].push_back(i);
       tong[x]++;
+      zong[i]++;
     }
   }
   if (gettime(mm)>3.0)
@@ -107,11 +109,12 @@ void dfs(int x)
     {
       md=max(md,ji[i]);
       mx=min(mx,ji[i]);
-      if (md-mx<mm)
-      {
-        mm=md-mx;
-        memcpy(rr,ff,sizeof(ff));
-      }
+    }
+    if (md-mx<mm)
+    {
+      mm=md-mx;
+      memcpy(rr,ff,sizeof(rr));
+      memcpy(rrj,ji,sizeof(rrj));
     }
     return;
   }
@@ -119,14 +122,22 @@ void dfs(int x)
     dfs(x+1);
   else
   {
-    int  mmm=maxlongint,t;
+    int  mmm=maxlongint,t,mm2=0;
     for (i=0;i<tong[x];i++)
     {
       if (ji[guan[x][i]]<mmm)
       {
         mmm=ji[guan[x][i]];
+        mm2=zong[guan[x][i]];
         t=guan[x][i];
       }
+      else
+        if (ji[guan[x][i]]==mmm)
+          if (zong[guan[x][i]]<mm2)
+          {
+            mm2=zong[guan[x][i]];
+            t=guan[x][i];
+          }
     }
     ff[x]=t;
     ji[t]++;
@@ -142,7 +153,10 @@ int main()
     for (j=1;j<=n;j++)
       tu[i][j]=maxlongint;
   for (i=1;i<=n;i++)
+  {
     inf>>dian[i].x>>dian[i].y;
+    inf4>>dian[i].r;
+  }
   infb>>m;
   for (i=1;i<=m;i++)
   {
@@ -153,12 +167,16 @@ int main()
   for (i=21;i<=92;i++)
     getmin(1,20,i);
   mm=maxlongint;
+  for (i=21;i<=92;i++)
+    for (j=0;j<tong[i];j++)
+      if (guan[i][j]==10||guan[i][j]==12||guan[i][j]==14)
+        cout<<i<<' '<<guan[i][j]<<endl;
   dfs(21);
   cout<<mm<<endl;
   for (i=21;i<=92;i++)
     ouf<<i<<';'<<fixed<<setprecision(2)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
   for (i=1;i<=20;i++)
-    ouf<<i<<';'<<ji[i]<<endl;
+    ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<endl;
   return 0;
 }
 
