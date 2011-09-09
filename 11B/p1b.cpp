@@ -117,7 +117,7 @@ bool check(double ma)
     if (!duiz[i])
     {
       memset(yong,0,sizeof(yong));
-      if (xiong(t))//找到增广轨
+      if (xiong(i))//找到增广轨
           cc++;//匹配数+1
 	}
   if (cc>=13)
@@ -135,7 +135,7 @@ int main()
   for (i=1;i<=n;i++)
   {
     inf>>dian[i].x>>dian[i].y;
-    inf5>>dian[i].r;
+    tu[i][i]=0;
   }
   infb>>m;
   for (i=1;i<=m;i++)
@@ -157,9 +157,9 @@ int main()
       mint[0]=pai[i];
       break;
     }
-  cout<<mint[0]<<endl;
+  cout<<gettime(mint[0])<<endl;
   for (i=1;i<=q;i++)
-    ouf<<you[i]<<';'<<duiy[i]<<';'<<fixed<<setprecision(2)<<d[you[i]][duiy[i]]<<endl;
+    ouf<<you[i]<<';'<<duiy[i]<<';'<<fixed<<setprecision(2)<<gettime(d[you[i]][duiy[i]])<<endl;
   return 0;
 }
 
