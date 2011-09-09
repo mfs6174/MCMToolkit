@@ -26,7 +26,7 @@ using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
-ofstream ouf("rs4.csv");
+ofstream ouf("rs5-jia2.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
@@ -45,7 +45,7 @@ int tong[1000],shu[1000];
 vector<int> guan[1000];
 int ff[100],ji[1000],rr[100],rrj[100],zong[100],zongs[100];
 bool cnot[1000];
-int jia=3,cn,cmn=10,cnotp;
+int jia=2,cn,cmn=10,cnotp[10],cnct;
 int se[20];
 bool fl,tbl[200];
 
@@ -127,7 +127,7 @@ void dfs(int x)
         mdd=max(mdd,rt[i]);
         mdx=min(mdx,rt[i]);
       }
-    if ((abs(mdd-mdx-mmd)>1e-3)&&(mdd-mdx<mmd))
+    if ((cn<cmn)||((abs(mdd-mdx-mmd)>1e-3)&&(mdd-mdx<mmd)))
     {
       mm=md-mx;mmd=mdd-mdx;
       memcpy(rr,ff,sizeof(rr));
@@ -135,11 +135,12 @@ void dfs(int x)
       memcpy(rrt,rt,sizeof(rrt));
       memcpy(zongs,zong,sizeof(zongs));
       memcpy(zongrs,zongr,sizeof(zongrs));
+      cnct=0;
       for (int k=1;k<=92;k++)
       {
         tbl[k]=dian[k].f;
         if (cnot[k])
-          cnotp=k;
+          cnotp[++cnct]=k;
       }
     }
     return;
@@ -205,8 +206,8 @@ void cal()
     getmin(i);
   if (cn<=cmn)
   {
-    cmn=cn;
     dfs(21);
+    cmn=cn;
   }
   for (i=1;i<=jia;i++)
     dian[se[i]+20].f=false;
@@ -250,7 +251,10 @@ int main()
   zuhe(1,jia,72);
   //  if (fl)
   {
-    cout<<cmn<<' '<<mm<<' '<<mmd<<' '<<cnotp<<endl;
+    cout<<cmn<<' '<<mm<<' '<<mmd<<' ';
+    for (i=1;i<=cmn;i++)
+      cout<<cnotp[i]<<' ';
+    cout<<endl;
     for (i=1;i<=92;i++)
       if (!tbl[i])
         ouf<<i<<';'<<fixed<<setprecision(4)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
