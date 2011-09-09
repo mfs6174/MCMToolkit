@@ -25,6 +25,7 @@ LANG: C++
 using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
+ifstream inf4("data4.txt");
 ofstream ouf("rs1.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
@@ -32,14 +33,14 @@ const int maxlongint=2147483647;
 struct D
 {
   int h,q;
-  double x,y;
+  double x,y,r;
   bool f;
 };
 
 int i,j,k,t,n,m,mz,tt;
 double tu[1000][1000],d[1000][1000];
 D dian[1000];
-double mint[1000];
+double mint[1000],rt[1000];
 int tong[1000],shu[1000];
 vector<int> guan[1000];
 
@@ -81,6 +82,7 @@ void getmin(int a,int b,int x)
       t=i;
     }
   tong[t]++;
+  rt[t]+=dian[x].r;
   guan[t].push_back(x);
   mint[x]=gettime(mm);
   shu[x]=t;
@@ -93,7 +95,10 @@ int main()
     for (j=1;j<=n;j++)
       tu[i][j]=maxlongint;
   for (i=1;i<=n;i++)
+  {
     inf>>dian[i].x>>dian[i].y;
+    inf4>>dian[i].r;
+  }
   infb>>m;
   for (i=1;i<=m;i++)
   {
@@ -103,10 +108,15 @@ int main()
   floyd(1,n);
   for (i=21;i<=92;i++)
     getmin(1,20,i);
+  for (i=1;i<=20;i++)
+  {
+    tong[i]++;
+    rt[i]+=dian[i].r;
+  }
   for (i=21;i<=92;i++)
     ouf<<i<<';'<<fixed<<setprecision(2)<<mint[i]<<';'<<shu[i]<<endl;
   for (i=1;i<=20;i++)
-    ouf<<i<<';'<<tong[i]<<endl;
+    ouf<<i<<';'<<tong[i]<<';'<<rt[i]<<endl;
   return 0;
 }
 
