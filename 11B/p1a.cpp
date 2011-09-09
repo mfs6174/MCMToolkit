@@ -97,14 +97,14 @@ int main()
   infb>>m;
   for (i=1;i<=m;i++)
   {
-    inf>>t>>tt;
+    infb>>t>>tt;
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
   floyd(1,n);
   for (i=21;i<=92;i++)
     getmin(1,20,i);
-  for (i=20;i<=92;i++)
-    ouf<<i<<';'<<mint[i]<<';'<<shu[i]<<endl;
+  for (i=21;i<=92;i++)
+    ouf<<i<<';'<<fixed<<setprecision(2)<<mint[i]<<';'<<shu[i]<<endl;
   for (i=1;i<=20;i++)
     ouf<<i<<';'<<tong[i]<<endl;
   return 0;
