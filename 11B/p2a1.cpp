@@ -112,6 +112,7 @@ int main()
   {
     inf>>dian[i].x>>dian[i].y;
     inf4>>dian[i].r;
+    tu[i][i]=0;
   }
   infb>>m;
   for (i=1;i<=m;i++)
@@ -120,12 +121,12 @@ int main()
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
   floyd(1,n);
-  for (i=1;i<=5;i++)
+  for (i=1;i<=6;i++)
     for (j=qu[i][0];j<=qu[i][1];j++)
     {
       dian[j].f=true;
-      tong[i]++;
-      rt[i]+=dian[i].r;
+      tong[j]++;
+      rt[j]+=dian[j].r;
     }
   for (i=1;i<=n;i++)
     getmin(i);
