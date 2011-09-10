@@ -26,7 +26,7 @@ using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
-ofstream ouf("rs7-jia5.csv");
+ofstream ouf("rs-c-jia4.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
@@ -40,14 +40,17 @@ struct D
 int i,j,k,t,n,m,mm,tt;
 double tu[1000][1000],d[1000][1000];
 D dian[1000];
-double mint[1000],rt[1000],rrt[1000],zongr[100],zongrs[100],mmd;
+double mint[1000],rt[1000],rrt[1000],zongr[1000],zongrs[1000],mmd;
 int tong[1000],shu[1000];
 vector<int> guan[1000];
-int ff[100],ji[1000],rr[100],rrj[100],zong[100],zongs[100];
+int ff[1000],ji[1000],rr[1000],rrj[1000],zong[1000],zongs[1000];
 bool cnot[1000];
-int jia=5,cn,cmn=10,cnotp[10],cnct;
+int jia=4,cn,cmn=100,cnotp[50],cnct,dh=3;
 int se[20];
-bool fl,tbl[200];
+bool fl,tbl[1000];
+int qu[10][3]={{0},{1,20},{93,100},{166,182},{320,328},{372,386},{475,485}};
+int jie[10]={0,92,73,154,52,103,108};
+int notin[1000],geshu;
 
 inline double dst(D &a,D &b)
 {
@@ -57,6 +60,17 @@ inline double dst(D &a,D &b)
 inline double gettime(double d)
 {
   return d/10.0;
+}
+inline int getnum(int x)
+{
+  int i,m=0;
+  for (i=1;i<=5;i++)
+  {
+    if (x>m&&x<=m+jie[i])
+      return i;
+    m+=jie[i];
+  }
+  return i;
 }
 
 void floyd(int a,int n)
@@ -77,13 +91,27 @@ void floyd(int a,int n)
         }
 }
 
+void getmark(int x)
+{
+  int i;
+  double mm=maxlongint;
+  for (i=qu[dh][0];i<=qu[dh][1];i++)
+    if (d[i][x]<mm)
+      mm=d[i][x];
+  if (gettime(mm)>3)
+  {
+    geshu++;
+    notin[geshu]=x;
+  }
+}
+
 void getmin(int x)
 {
   if (dian[x].f)
     return;
   int i,t;
   double mm=maxlongint;
-  for (i=1;i<=92;i++)
+  for (i=qu[dh][0];i<qu[dh][0]+jie[dh];i++)
   {
     if (dian[i].f)
     {
@@ -105,6 +133,7 @@ void getmin(int x)
   {
     ji[t]++;
     rt[t]+=dian[x].r;
+    zong[t]++;zongr[t]+=dian[x].r;
     ff[x]=t;
     cnot[x]=true;
     fl=false;
@@ -115,11 +144,11 @@ void getmin(int x)
 void dfs(int x)
 {
   int i;
-  if (x>92)
+  if (x>=qu[dh][0]+jie[dh])
   {
     int md=-1,mx=maxlongint;
     double mdd=-1,mdx=maxlongint;
-    for (i=1;i<=92;i++)
+    for (i=qu[dh][0];i<qu[dh][0]+jie[dh];i++)
       if (dian[i].f)
       {
         md=max(md,ji[i]);
@@ -136,7 +165,7 @@ void dfs(int x)
       memcpy(zongs,zong,sizeof(zongs));
       memcpy(zongrs,zongr,sizeof(zongrs));
       cnct=0;
-      for (int k=1;k<=92;k++)
+      for (int k=qu[dh][0];k<qu[dh][0]+jie[dh];k++)
       {
         tbl[k]=dian[k].f;
         if (cnot[k])
@@ -185,8 +214,8 @@ void cal()
   fl=true;
   cn=0;
   for (i=1;i<=jia;i++)
-    dian[se[i]+20].f=true;
-  for (i=1;i<=95;i++)
+    dian[notin[se[i]]].f=true;
+  for (i=qu[dh][0];i<qu[dh][0]+jie[dh];i++)
   {
     rt[i]=0;
     zongr[i]=0;
@@ -200,15 +229,15 @@ void cal()
       zongr[i]+=dian[i].r;
     }
   }
-  for (i=21;i<=92;i++)
+  for (i=qu[dh][0];i<qu[dh][0]+jie[dh];i++)
     getmin(i);
   if (cn<=cmn)
   {
-    dfs(21);
+    dfs(qu[dh][0]);
     cmn=cn;
   }
   for (i=1;i<=jia;i++)
-    dian[se[i]+20].f=false;
+    dian[notin[se[i]]].f=false;
 }
 
 void zuhe(int x,int m,int n)
@@ -242,23 +271,26 @@ int main()
     infb>>t>>tt;
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
-  for (i=1;i<=20;i++)
-    dian[i].f=true;
+  for (j=1;j<=6;j++)
+    for (i=qu[j][0];i<=qu[j][1];i++)
+      dian[i].f=true;
   floyd(1,n);
+  for (i=qu[dh][0];i<qu[dh][0]+jie[dh];i++)
+    getmark(i);
   mm=maxlongint;mmd=maxlongint;
-  zuhe(1,jia,72);
-  cout<<cmn<<' '<<mm<<' '<<mmd<<' ';
+  zuhe(1,jia,geshu);
+  cout<<geshu<<' '<<cmn<<' '<<mm<<' '<<mmd<<' ';
   for (i=1;i<=cmn;i++)
     cout<<cnotp[i]<<' ';
   cout<<endl;
-  for (i=1;i<=92;i++)
+   for (i=qu[dh][0];i<qu[dh][0]+jie[dh];i++)
     if (!tbl[i])
       ouf<<i<<';'<<fixed<<setprecision(4)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
-  for (i=1;i<=92;i++)
+   for (i=qu[dh][0];i<qu[dh][0]+jie[dh];i++)
     if (tbl[i])
     {
       ouf<<i<<';'<<zongs[i]<<';'<<rrj[i]<<';'<<zongrs[i]<<';'<<rrt[i]<<" ;";
-      for (j=1;j<=92;j++)
+       for (j=qu[dh][0];j<qu[dh][0]+jie[dh];j++)
         if (rr[j]==i)
           ouf<<j<<';';
       ouf<<endl;

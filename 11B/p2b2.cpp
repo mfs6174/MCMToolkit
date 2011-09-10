@@ -27,6 +27,7 @@ ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
 ofstream ouf("rs10.csv");
+ofstream ouf2("rs-3min.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int P=32;
@@ -235,6 +236,9 @@ int main()
       break;
     }
   }
+  for (i=1;i<=n;i++)
+    if (mint[i][P]<=3.0)
+      ouf2<<i<<endl;
   return 0;
 }
 
