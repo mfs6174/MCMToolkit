@@ -47,7 +47,7 @@ int tong[1000],shu[1000];
 vector<int> guan[1000];
 int qu[10][3]={{0},{1,20},{93,100},{166,182},{320,328},{372,386},{475,485}};
 int jie[10]={0,92,73,154,52,103,108};
-int shi[1000];
+double shi[1000];
 vector<int> dang,jian;
 bool zai[1000],keyd[1000];
 int zuo[1000],you[1000],duiz[1000],duiy[1000];
@@ -146,6 +146,7 @@ void solve(int li)
         keyd[dang[i]]=true;
         cc++;zuo[cc]=dang[i];
         jian.push_back(dang[i]);
+        break;
       }
   for (i=0;i<cc;i++)
   {
@@ -216,7 +217,7 @@ int main()
         ouf<<dang.size()<<endl;
         ouf<<cc<<endl;
         for (i=1;i<=cc;i++)
-          ouf<<zuo[cc]<<';'<<duiz[zuo[cc]]<<endl;
+          ouf<<zuo[i]<<';'<<duiz[zuo[i]]<<endl;
         break;
       }
     }
