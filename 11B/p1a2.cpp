@@ -43,7 +43,7 @@ D dian[1000];
 double mint[1000],rt[1000],rrt[1000],zongr[1000],mmd;
 int tong[1000],shu[1000];
 vector<int> guan[1000];
-int ff[100],ji[1000],rr[100],rrj[100],zong[1000];
+int ff[1000],ji[1000],rr[1000],rrj[1000],zong[1000];
 bool cnot[1000];
 int qu[10][3]={{0},{1,20},{93,100},{166,182},{320,328},{372,386},{475,485}};
 int jie[10]={0,92,73,154,52,103,108};
@@ -111,6 +111,7 @@ void getmin(int x)
   {
     ji[t]++;
     rt[t]+=dian[x].r;
+    zong[t]++;zongr[t]+=dian[x].r;
     ff[x]=t;
     cnot[x]=true;
   }
