@@ -44,6 +44,7 @@ double mint[1000],rt[1000];
 int tong[1000],shu[1000];
 vector<int> guan[1000];
 int qu[10][3]={{0},{1,20},{93,100},{166,182},{320,328},{372,386},{475,485}};
+int jie[10]={0,92,73,154,52,103,108};
 
 inline double dst(D &a,D &b)
 {
@@ -53,6 +54,17 @@ inline double dst(D &a,D &b)
 inline double gettime(double d)
 {
   return d/10.0;
+}
+inline int getnum(int x)
+{
+  int i,m=0;
+  for (i=1;i<=5;i++)
+  {
+    if (x>m&&x<=m+jie[i])
+      return i;
+    m+=jie[i];
+  }
+  return i;
 }
 
 void floyd(int a,int n)
@@ -75,10 +87,9 @@ void floyd(int a,int n)
 
 void getmin(int x)
 {
-  int i,t,j;
+  int i,t,p=getnum(x);
   double mm=maxlongint;
-  for (j=1;j<=5;j++)
-    for (i=qu[j][0];i<=qu[j][1];i++)
+  for (i=qu[p][0];i<=qu[p][1];i++)
     if (d[i][x]<mm)
     {
       mm=d[i][x];
