@@ -26,7 +26,7 @@ using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
-ofstream ouf("rs2.csv");
+ofstream ouf("rs11.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
@@ -45,6 +45,8 @@ int tong[1000],shu[1000];
 vector<int> guan[1000];
 int ff[100],ji[1000],rr[100],rrj[100],zong[1000];
 bool cnot[1000];
+int qu[10][3]={{0},{1,20},{93,100},{166,182},{320,328},{372,386},{475,485}};
+int jie[10]={0,92,73,154,52,103,108};
 
 inline double dst(D &a,D &b)
 {
@@ -54,6 +56,18 @@ inline double dst(D &a,D &b)
 inline double gettime(double d)
 {
   return d/10.0;
+}
+
+inline int getnum(int x)
+{
+  int i,m=0;
+  for (i=1;i<=5;i++)
+  {
+    if (x>m&&x<=m+jie[i])
+      return i;
+    m+=jie[i];
+  }
+  return i;
 }
 
 void floyd(int a,int n)
@@ -74,11 +88,11 @@ void floyd(int a,int n)
         }
 }
 
-void getmin(int a,int b,int x)
+void getmin(int x)
 {
-  int i,t;
+  int i,t,h=getnum(x);
   double mm=maxlongint;
-  for (i=a;i<=b;i++)
+  for (i=qu[h][0];i<=qu[h][1];i++)
   {
     if (d[i][x]<mm)
     {
@@ -104,29 +118,27 @@ void getmin(int a,int b,int x)
 
 void dfs(int x)
 {
-  int i;
-  if (x>92)
+  int i,j;
+  if (x>n)
   {
     int md=-1,mx=maxlongint;
     double mdd=-1,mdx=maxlongint;
-    for (i=1;i<=20;i++)
-    {
-      md=max(md,ji[i]);
-      mx=min(mx,ji[i]);
-      mdd=max(mdd,rt[i]);
-      mdx=min(mdx,rt[i]);
-    }
+    for (j=1;j<=6;j++)
+      for (i=qu[j][0];i<=qu[j][1];i++)
+      {
+        md=max(md,ji[i]);
+        mx=min(mx,ji[i]);
+        mdd=max(mdd,rt[i]);
+        mdx=min(mdx,rt[i]);
+      }
     mmd=mdd-mdx;
-    if (md-mx<mm)
-    {
-      mm=md-mx;
-      memcpy(rr,ff,sizeof(rr));
-      memcpy(rrj,ji,sizeof(rrj));
-      memcpy(rrt,rt,sizeof(rrt));
-    }
+    mm=md-mx;
+    memcpy(rr,ff,sizeof(rr));
+    memcpy(rrj,ji,sizeof(rrj));
+    memcpy(rrt,rt,sizeof(rrt));
     return;
   }
-  if (cnot[x])
+  if (cnot[x]||dian[x].f)
     dfs(x+1);
   else
   {
@@ -152,8 +164,6 @@ void dfs(int x)
     ji[t]++;
     rt[t]+=dian[x].r;
     dfs(x+1);
-    ji[t]--;
-    rt[t]-=dian[x].r;
   }
 }
 
@@ -167,6 +177,7 @@ int main()
   {
     inf>>dian[i].x>>dian[i].y;
     inf4>>dian[i].r;
+    tu[i][i]=0;
   }
   infb>>m;
   for (i=1;i<=m;i++)
@@ -175,24 +186,25 @@ int main()
     tu[t][tt]=tu[tt][t]=dst(dian[t],dian[tt]);
   }
   floyd(1,n);
-  for (i=1;i<=20;i++)
-  {
-    ji[i]++;zong[i]++;
-    rt[i]+=dian[i].r;zongr[i]+=dian[i].r;
-  }
-  for (i=21;i<=92;i++)
-    getmin(1,20,i);
+  for (j=1;j<=6;j++)
+    for (i=qu[j][0];i<=qu[j][1];i++)
+    {
+      dian[i].f=true;
+      ji[i]++;zong[i]++;
+      rt[i]+=dian[i].r;zongr[i]+=dian[i].r;
+    }
+  for (i=1;i<=n;i++)
+    if (!dian[i].f)
+      getmin(i);
   mm=maxlongint;
-  // for (i=21;i<=92;i++)
-  //   for (j=0;j<tong[i];j++)
-  //     if (guan[i][j]==10||guan[i][j]==12||guan[i][j]==14)
-  //       cout<<i<<' '<<guan[i][j]<<endl;
   dfs(21);
   cout<<mm<<' '<<mmd<<endl;
-  for (i=21;i<=92;i++)
-    ouf<<i<<';'<<fixed<<setprecision(3)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
-  for (i=1;i<=20;i++)
-    ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
+  for (i=1;i<=n;i++)
+    if (!dian[i].f)
+      ouf<<i<<';'<<fixed<<setprecision(3)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
+  for (i=1;i<=n;i++)
+    if (dian[i].f)
+      ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
   return 0;
 }
 
