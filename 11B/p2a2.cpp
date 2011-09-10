@@ -171,8 +171,6 @@ void dfs(int x)
     ji[t]++;
     rt[t]+=dian[x].r;
     dfs(x+1);
-    //ji[t]--;
-    //rt[t]-=dian[x].r;
   }
 }
 

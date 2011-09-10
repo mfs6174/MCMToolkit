@@ -129,7 +129,8 @@ int main()
       rt[j]+=dian[j].r;
     }
   for (i=1;i<=n;i++)
-    getmin(i);
+    if (!dian[i].f)
+      getmin(i);
   for (i=1;i<=n;i++)
     if (!dian[i].f)
       ouf<<i<<';'<<fixed<<setprecision(3)<<mint[i]<<';'<<shu[i]<<endl;
