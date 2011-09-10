@@ -228,7 +228,10 @@ int main()
       ouf<<dang.size()<<endl;
       ouf<<cc<<endl;
       for (i=1;i<=cc;i++)
-        ouf<<zuo[i]<<';'<<duiz[zuo[i]]<<endl;
+        ouf<<zuo[i]<<';'<<duiz[zuo[i]]<<';'<<dian[zuo[i]].x<<';'<<dian[zuo[i]].y<<endl;
+      ouf<<endl;
+      for (i=0;i<dang.size();i++)
+        ouf<<dang[i]<<';'<<dian[dang[i]].x<<';'<<dian[dang[i]].y<<endl;
       break;
     }
   }
