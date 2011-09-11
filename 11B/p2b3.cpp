@@ -74,6 +74,12 @@ inline double gettime(double d)
 {
   return d/10.0;
 }
+
+inline double gettime1()
+{
+  
+}
+
 inline int getnum(int x)
 {
   int i,m=0;
@@ -244,9 +250,15 @@ int main()
       ouf<<k<<endl;
       ouf<<dang.size()<<endl;
       ouf<<cc<<endl;
+      double mm=-maxlongint;
       for (i=1;i<=n;i++)
         if (cut[i])
-        ouf<<i<<';'<<zduiz[i]<<';'<<dian[i].x<<';'<<dian[i].y<<endl;
+        {
+          ouf<<i<<';'<<zduiz[i]<<';'<<dian[i].x<<';'<<dian[i].y<<';'<<gettime(d[i][zduiz[i]])<<endl;
+          if (d[i][zduiz[i]]>mm)
+            mm=d[i][zduiz[i]];
+        }
+      cout<<gettime(mm)<<endl;
       ouf<<endl;
       for (i=0;i<dang.size();i++)
         ouf<<dang[i]<<';'<<dian[dang[i]].x<<';'<<dian[dang[i]].y<<endl;
