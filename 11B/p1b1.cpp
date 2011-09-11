@@ -114,6 +114,7 @@ int main()
   ouf<<"0;";
   for (i=1;i<=q;i++)
     ouf<<you[i]<<';';
+  ouf<<endl;
   for (i=1;i<=92;i++)
   {
     ouf<<i<<';';
