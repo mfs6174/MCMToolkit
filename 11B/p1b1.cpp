@@ -27,9 +27,10 @@ ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf5("data5.txt");
 ofstream ouf("rs13.csv");
+ofstream ouf1("gailv.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
-
+const double ling=1e-6;
 struct D
 {
   int h,q,c;
@@ -46,6 +47,8 @@ int tong[1000],shu[1000];
 vector<int> guan[1000];
 int you[1000];
 int zhen[100][20];
+bool mark[1000];
+double gai[100][20];
 
 inline double dst(D &a,D &b)
 {
@@ -74,6 +77,7 @@ void floyd(int a,int n)
             d[i][j]=t;
         }
 }
+
 int main()
 {
   inf>>n;
@@ -96,21 +100,63 @@ int main()
     inf5>>you[i];
   floyd(1,n);
   for (i=1;i<=92;i++)
+  {
+    double sum=0;
+    multimap<double,int> tp;
+    double lv[20];
+    for (j=1;j<=q;j++)
+      lv[j]=0;
+    tp.clear();
+    bool fll=false;
     for (j=1;j<=q;j++)
     {
+      if (d[i][you[j]]<ling)
+      {
+        gai[i][j]=1;
+        for (k=1;k<=q;k++)
+          if (k!=j)
+            gai[i][k]=0;
+        fll=true;
+        break;
+      }
+      sum+=1.0/d[i][you[j]];
+    }
+    if (!fll)
+    {
+      sum=1.0/sum;
+      for (j=1;j<=q;j++)
+        gai[i][j]=sum/d[i][you[j]];
+    }
+  }
+  for (i=1;i<=92;i++)
+  {
+    int tt;
+    memset(mark,0,sizeof(mark));
+    bool ff[1000];
+    memset(ff,0,sizeof(ff));
+    int o;
+    for (o=1;o<=q;o++)
+    {
+      double mmm=-1;
+      for (k=1;k<=q;k++)
+        if ((!ff[k])&&(gai[i][k]>mmm))
+        {
+          mmm=gai[i][k];
+          tt=k;
+        }
+      ff[tt]=true;j=tt;
       double mm=maxlongint;
       int t;
       for (k=1;k<=20;k++)
-        if (d[k][you[j]]<mm)
+        if (d[k][you[j]]<mm&&(!mark[k]))
         {
           mm=d[k][you[j]];
           t=k;
         }
-      if (mm<=d[i][you[j]])
-        zhen[i][j]=t;
-      else
-        zhen[i][j]=0;
+      zhen[i][j]=t;
+      mark[t]=true;
     }
+  }
   ouf<<"0;";
   for (i=1;i<=q;i++)
     ouf<<you[i]<<';';
@@ -118,14 +164,26 @@ int main()
   for (i=1;i<=92;i++)
   {
     ouf<<i<<';';
-    int cc=0;
+    double cc=0;
+    for (j=1;j<=q;j++)
+      ouf<<zhen[i][j]<<';';
     for (j=1;j<=q;j++)
     {
-      ouf<<zhen[i][j]<<';';
-      if (zhen[i][j])
-        cc++;
+      if (d[i][you[j]]>=d[zhen[i][j]][you[j]])
+      {
+        ouf<<1<<';';
+        cc+=gai[i][j];
+      }
+      else
+        ouf<<0<<';';
     }
-    ouf<<(double)cc/q<<endl;
+    ouf<<cc<<endl;
+  }
+  for (i=1;i<=92;i++)
+  {
+    for (j=1;j<=q;j++)
+      ouf1<<gai[i][j]<<';';
+    ouf1<<endl;
   }
   return 0;
 }
