@@ -104,7 +104,7 @@ void getmin(int a,int b,int x)
 
 void dfs(int x)
 {
-  int i,xt=sui[x];
+  int i;
   if (x>92)
   {
     int md=-1,mx=maxlongint;
@@ -126,34 +126,34 @@ void dfs(int x)
     }
     return;
   }
-  if (cnot[xt])
+  if (cnot[x])
     dfs(x+1);
   else
   {
     double  mmm=maxlongint,mm2=0;
     int t;
-    for (i=0;i<tong[xt];i++)
+    for (i=0;i<tong[x];i++)
     {
-      if (rt[guan[xt][i]]<mmm)
+      if (rt[guan[x][i]]<mmm)
       {
-        mmm=rt[guan[xt][i]];
-        mm2=zongr[guan[xt][i]];
-        t=guan[xt][i];
+        mmm=rt[guan[x][i]];
+        mm2=zongr[guan[x][i]];
+        t=guan[x][i];
       }
       else
-        if (rt[guan[xt][i]]==mmm)
-          if (zongr[guan[xt][i]]<mm2)
+        if (rt[guan[x][i]]==mmm)
+          if (zongr[guan[x][i]]<mm2)
           {
-            mm2=zong[guan[xt][i]];
-            t=guan[xt][i];
+            mm2=zong[guan[x][i]];
+            t=guan[x][i];
           }
     }
-    ff[xt]=t;
+    ff[x]=t;
     ji[t]++;
-    rt[t]+=dian[xt].r;
+    rt[t]+=dian[x].r;
     dfs(x+1);
     ji[t]--;
-    rt[t]-=dian[xt].r;
+    rt[t]-=dian[x].r;
   }
 }
 
@@ -177,7 +177,7 @@ int main()
   floyd(1,n);
   for (i=1;i<=20;i++)
   {
-    ji[i]++;zong[i]++;
+    ji[i]++;zong[i]++;ff[i]=i;
     rt[i]+=dian[i].r;zongr[i]+=dian[i].r;
   }
   for (i=21;i<=92;i++)
@@ -192,7 +192,13 @@ int main()
   for (i=21;i<=92;i++)
     ouf<<i<<';'<<fixed<<setprecision(3)<<gettime(d[rr[i]][i])<<';'<<rr[i]<<endl;
   for (i=1;i<=20;i++)
-    ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<endl;
+  {
+    ouf<<i<<';'<<zong[i]<<';'<<rrj[i]<<';'<<zongr[i]<<';'<<rrt[i]<<" ;";
+    for (j=1;j<=92;j++)
+      if (rr[j]==i)
+        ouf<<j<<';';
+    ouf<<endl;
+  }
   return 0;
 }
 
