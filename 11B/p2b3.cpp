@@ -138,7 +138,7 @@ bool xiong(int x)
 
 void solve(int li)
 {
-  int i,j,k,t;
+  int i,j,k,t,tmp;
   //dang.clear();
   jian.clear();
   memset(keyd,0,sizeof(keyd));
@@ -147,7 +147,8 @@ void solve(int li)
   memset(duiy,0,sizeof(duiy));
   memset(zuo,0,sizeof(zuo));
   cc=0;
-  for (i=0;i<dang.size();i++)
+  tmp=dang.size();
+  for (i=0;i<tmp;i++)
     for (j=1;j<=n;j++)
       if ((tu[dang[i]][j]!=maxlongint)&&(bh[j]<=li)&&(!cut[dang[i]])&&(!zai[j]))
       {
