@@ -113,11 +113,17 @@ int main()
   {
     tong[i]++;
     rt[i]+=dian[i].r;
+    guan[i].push_back(i);
   }
   for (i=21;i<=92;i++)
     ouf<<i<<';'<<fixed<<setprecision(2)<<mint[i]<<';'<<shu[i]<<endl;
   for (i=1;i<=20;i++)
-    ouf<<i<<';'<<tong[i]<<';'<<rt[i]<<endl;
+  {
+    ouf<<i<<';'<<tong[i]<<';'<<rt[i]<<" ;";
+    for (j=0;j<guan[i].size();j++)
+      ouf<<guan[i][j]<<';';
+    ouf<<endl;
+  }
   return 0;
 }
 
