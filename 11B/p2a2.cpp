@@ -26,7 +26,7 @@ using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
-ofstream ouf("rs-c-jia4.csv");
+ofstream ouf("rs-c-jia6.csv");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 
@@ -45,7 +45,7 @@ int tong[1000],shu[1000];
 vector<int> guan[1000];
 int ff[1000],ji[1000],rr[1000],rrj[1000],zong[1000],zongs[1000];
 bool cnot[1000];
-int jia=4,cn,cmn=100,cnotp[50],cnct,dh=3;
+int jia=6,cn,cmn=100,cnotp[50],cnct,dh=3;
 int se[20];
 bool fl,tbl[1000];
 int qu[10][3]={{0},{1,20},{93,100},{166,182},{320,328},{372,386},{475,485}};
