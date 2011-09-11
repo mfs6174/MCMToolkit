@@ -187,7 +187,7 @@ void solve(int li)
           rr++;//匹配数+1
 	}
   }
-  if (li>=3)
+  if (li>=2)
     for (i=1;i<=cc;i++)
       if (duiz[zuo[i]])
       {
