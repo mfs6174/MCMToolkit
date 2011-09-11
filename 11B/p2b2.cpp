@@ -27,7 +27,7 @@ ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
 ofstream ouf("rs10.csv");
-ofstream ouf2("rs-3min.txt");
+ofstream ouf2("not.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int P=32;
@@ -184,6 +184,13 @@ void solve(int li)
           rr++;//匹配数+1
 	}
   }
+  if (rr>=18)
+  {
+    for (i=1;i<=cc;i++)
+      if (!duiz[zuo[i]])
+        ouf2<<zuo[i]<<endl;
+    ouf2<<endl;
+  }
   if (rr>=cc)
   {
     fl=true;
@@ -236,9 +243,9 @@ int main()
       break;
     }
   }
-  for (i=1;i<=n;i++)
-    if (mint[i][P]<=3.0)
-      ouf2<<i<<endl;
+  // for (i=1;i<=n;i++)
+  //   if (mint[i][P]<=3.0)
+  //     ouf2<<i<<' '<<mint[i][P]<<endl;
   return 0;
 }
 

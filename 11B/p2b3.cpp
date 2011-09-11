@@ -26,8 +26,8 @@ using namespace std;
 ifstream inf("data1.txt");
 ifstream infb("data3.txt");
 ifstream inf4("data4.txt");
-ofstream ouf("rs10.csv");
-ofstream ouf2("rs-3min.txt");
+ofstream ouf("rs12.csv");
+//ofstream ouf2("rs-3min.txt");
 //freopen("ti.in","r",stdin);
 const int maxlongint=2147483647;
 const int P=32;
@@ -51,7 +51,7 @@ int jie[10]={0,92,73,154,52,103,108};
 double shi[1000];
 vector<int> dang,jian;
 bool zai[1000],keyd[1000];
-int zuo[1000],you[1000],duiz[1000],duiy[1000];
+int zuo[1000],you[1000],duiz[1000],duiy[1000],zduiz[1000];
 bool yong[1000];
 bool fl,mark[1000],cut[1000];
 int bh[1000];
@@ -147,12 +147,12 @@ void solve(int li)
   memset(duiy,0,sizeof(duiy));
   memset(zuo,0,sizeof(zuo));
   cc=0;
-  for (i=0;i<=dang.size();i++)
+  for (i=0;i<dang.size();i++)
     for (j=1;j<=n;j++)
-      if (bh[j]<=li&&(!cut[i])&&(!zai[j]))
+      if ((tu[dang[i]][j]!=maxlongint)&&(bh[j]<=li)&&(!cut[dang[i]])&&(!zai[j]))
       {
         zai[j]=true;
-        dang.push_back(i);
+        dang.push_back(j);
       }
   for (i=0;i<dang.size();i++)
     for (j=1;j<=n;j++)
@@ -186,12 +186,17 @@ void solve(int li)
           rr++;//匹配数+1
 	}
   }
-  if (li>=4)
+  if (li>=3)
     for (i=1;i<=cc;i++)
       if (duiz[zuo[i]])
       {
-        cut[zuo[i]]=true;
-        mark[duiz[zuo[i]]]=true;
+        for (j=1;j<=n;j++)
+          if (tu[zuo[i]][j]!=maxlongint&&bh[j]>bh[zuo[i]])
+          {
+            cut[zuo[i]]=true;
+            zduiz[zuo[i]]=duiz[zuo[i]];
+            mark[duiz[zuo[i]]]=true;
+          }
       }
   if (rr>=cc)
   {
@@ -228,6 +233,7 @@ int main()
   for (i=1;i<=n;i++)
     if (bh[i]!=maxlongint)
       mm=max(mm,bh[i]);
+  dang.push_back(P);zai[P]=true;
   for (k=1;k<mm;k++)
   {
     solve(k);
@@ -237,17 +243,15 @@ int main()
       ouf<<k<<endl;
       ouf<<dang.size()<<endl;
       ouf<<cc<<endl;
-      for (i=1;i<=cc;i++)
-        ouf<<zuo[i]<<';'<<duiz[zuo[i]]<<';'<<dian[zuo[i]].x<<';'<<dian[zuo[i]].y<<endl;
+      for (i=1;i<=n;i++)
+        if (cut[i])
+        ouf<<i<<';'<<zduiz[i]<<';'<<dian[i].x<<';'<<dian[i].y<<endl;
       ouf<<endl;
       for (i=0;i<dang.size();i++)
         ouf<<dang[i]<<';'<<dian[dang[i]].x<<';'<<dian[dang[i]].y<<endl;
       break;
     }
   }
-  for (i=1;i<=n;i++)
-    if (mint[i][P]<=3.0)
-      ouf2<<i<<endl;
   return 0;
 }
 
