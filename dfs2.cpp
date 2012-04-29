@@ -105,6 +105,7 @@ P dian[1000];
 int ff[1000];
 bool yong[1000];
 double dd[100][100],mmd[20][20],md[20][20];
+bool ji[30];
 
 inline double sqr(double x)
 {
@@ -154,9 +155,9 @@ inline P scp(SEG l1,SEG l2) //线段交点 不考虑（部分）重合的数据 
 }
 P tp;
 bool xj[100][100];
-double mm=610,dm=0;
+double mm=620,dm=0;
 int zhan[50],rz[50];
-int zc=0,mt=0,cct=0,ct=1000;
+int zc=0,mt=0,cct=0,ct=0;
 bool fl1;
 
 void dfs(int x)
@@ -165,28 +166,40 @@ void dfs(int x)
     return;
   if (x>m)
   {
-    mt=max(mt,zc);
+    ct++;
+    //if (zc==8&&zhan[1]==6&&zhan[2]==8&&zhan[3]==11&&zhan[4]==16&&zhan[5]==17&&zhan[6]==25&&zhan[7]==27&&zhan[8]==30)
+    // cout<<dm<<endl;
+    //mt=max(mt,zc);
+    if (! (ji[9]&&ji[10]&&ji[11]&&ji[12]) )
+      return;
     memcpy(mmd,md,sizeof(mmd));
-    for (k=1;k<=n;k++)
-      for (i=1;i<=n;i++)
-        for (j=1;j<=n;j++)
+    for (int k=1;k<=n;k++)
+      for (int i=1;i<=n;i++)
+        for (int j=1;j<=n;j++)
           if (mmd[i][k]<INF&&mmd[k][j]<INF)
             if (mmd[i][k]+mmd[k][j]<mmd[i][j])
               mmd[i][j]=mmd[i][k]+mmd[k][j];
     fl1=true;
-    cct=0;
     for (i=1;i<=3;i++)
       for (j=5;j<=7;j++)
         if (mmd[i][j]>1.4*dd[i][j])
         {
           fl1=false;
-          cct++;
-          // break;
+          //cct++;
+          break;
         }
-    ct=min(ct,cct);
+    //ct=min(ct,cct);
     if (fl1 && dm<mm)
     {
+      if (abs(dm-394)<1)
+      {
+        for (int i=1;i<=8;i++)
+          for (int j=i+1;j<=8;j++)
+            cout<<i<<' '<<j<<"   "<<mmd[i][j]<<' '<<dd[i][j]<<' '<<mmd[i][j]/dd[i][j]<<endl;
+        cout<<endl;
+      }
       memcpy(rz,zhan,sizeof(rz));
+      cct=zc;
       mm=dm;
     }
     return;
@@ -204,11 +217,14 @@ void dfs(int x)
     zhan[zc]=x;
     dm+=bian[x].l;
     double t=md[bian[x].a][bian[x].b];
-    md[bian[x].a][bian[x].b]=min(t,bian[x].l);
+    bool t1=ji[bian[x].a],t2=ji[bian[x].b];
+    ji[bian[x].a]=ji[bian[x].b]=true;
+    md[bian[x].b][bian[x].a]=md[bian[x].a][bian[x].b]=min(t,bian[x].l);
     dfs(x+1);
+    ji[bian[x].a]=t1;ji[bian[x].b]=t2;
     zc--;
     dm-=bian[x].l;
-    md[bian[x].a][bian[x].b]=t;
+    md[bian[x].b][bian[x].a]=md[bian[x].a][bian[x].b]=t;
   }
   dfs(x+1);
 }
@@ -272,10 +288,7 @@ int main()
   for (i=1;i<=8;i++)
     for (j=i+1;j<=8;j++)
       if (dian[i].x==dian[j].x||dian[i].y==dian[j].y)
-        md[i][j]=md[j][i]=dd[i][j];
-  md[3][4]=md[4][3]=dd[3][4];
-  md[1][8]=md[8][1]=dd[1][8];
-  
+        md[i][j]=md[j][i]=dd[i][j];  
   md[1][8]=min(md[1][8],45.0);
   md[8][1]=md[1][8];
   md[7][8]=min(md[7][8],85.0);
@@ -290,10 +303,19 @@ int main()
         if (md[i][k]<INF&&md[k][j]<INF)
           if (md[i][k]+md[k][j]<md[i][j])
             md[i][j]=md[i][k]+md[k][j];
+  for (int i=1;i<=8;i++)
+    for (int j=i+1;j<=8;j++)
+      cout<<i<<' '<<j<<"   "<<md[i][j]<<' '<<dd[i][j]<<' '<<md[i][j]/dd[i][j]<<endl;
+  cout<<endl;
+  md[3][4]=md[4][3]=dd[3][4];
+  md[1][8]=md[8][1]=dd[1][8];
   //开始搜索
+  dm=dd[3][4]+dd[1][8];
   dfs(1);
-  printf("%.3lf\n",mm);
-  cout<<ct<<endl;
+  printf("%.3lf  %d\n",mm,cct);
+  for (i=1;i<=cct;i++)
+    cout<<bian[rz[i]].a<<' '<<bian[rz[i]].b<<endl;
+  cout<<endl<<ct<<endl;
   return 0;
 }
 
