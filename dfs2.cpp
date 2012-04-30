@@ -162,8 +162,8 @@ bool fl1;
 
 void dfs(int x)
 {
-  if (dm>mm)
-    return;
+   if (dm>mm)
+     return;
   if (x>m)
   {
     ct++;
@@ -240,7 +240,7 @@ int main()
   for (i=1;i<=12;i++)
     for (j=i+1;j<=12;j++)
       dd[i][j]=dd[j][i]=dst(dian[i],dian[j]);  
-  //连边方式2
+  //连边方式3
   for (i=1;i<=3;i++)
     for (j=9;j<=12;j++)
       {
@@ -262,6 +262,28 @@ int main()
       bian[m].a=i;bian[m].b=j;
       bian[m].l=dd[i][j];
     }
+  for (j=1;j<=12;j++)
+  {
+    if (j!=4)
+    {
+      m++;
+      bian[m].a=4;bian[m].b=j;
+      bian[m].l=dd[4][j];
+    }
+    if (j!=8)
+    {
+      m++;
+      bian[m].a=8;bian[m].b=j;
+      bian[m].l=dd[8][j];
+    }
+  }
+  for (i=1;i<=3;i++)
+    for (j=5;j<=7;j++)
+    {
+      m++;
+      bian[m].a=i;bian[m].b=j;
+      bian[m].l=dd[i][j];
+    } 
   //相交预处理
   for (i=1;i<=m;i++)
     for (j=i+1;j<=m;j++)
