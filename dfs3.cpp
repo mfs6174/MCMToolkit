@@ -41,7 +41,7 @@ struct D
 const double INF=1e200;
 const double Ling=1e-8;
 bool fail;
-const int fks=5;
+const int fks=9;
 
 inline int cwz(double x)
 {
@@ -204,13 +204,16 @@ void dfs(int x)
             if (mmd[i][k]+mmd[k][j]<mmd[i][j])
               mmd[i][j]=mmd[i][k]+mmd[k][j];
     fl1=true;
-    for (i=1;i<=3;i++)
-      for (j=5;j<=7;j++)
-        if (mmd[i][j]>1.4*dd[i][j])
-        {
-          fl1=false;
-          break;
-        }
+    if (mmd[3][4]>1.4*dd[3][4] || mmd[1][8]>1.4*dd[1][8])
+      fl1=false;
+    if (fl1)
+      for (i=1;i<=3;i++)
+        for (j=5;j<=7;j++)
+          if (mmd[i][j]>1.4*dd[i][j])
+          {
+            fl1=false;
+            break;
+          }
     if (fl1 && dm<mm)
     {
       memcpy(rz,zhan,sizeof(rz));
@@ -253,13 +256,13 @@ int shixuan[20],rsx[20];
 inline bool getbac()
 {
   ite++;
-  if (ite>3)
+  if (ite>1)
     return false;
   else
     return true;
 }
 
-void dfs0(int x)
+void dfs0(int x,int ls)
 {
   if (x>mk)
   {
@@ -297,6 +300,28 @@ void dfs0(int x)
         bian[m].a=i;bian[m].b=j;
         bian[m].l=dd[i][j];
       }
+    //额外的边
+    m++;
+    bian[m].a=8;bian[m].b=1;
+    bian[m].l=dd[1][8];
+    // m++;
+    // bian[m].a=8;bian[m].b=7;
+    // bian[m].l=dd[7][8];
+    m++;
+    bian[m].a=4;bian[m].b=3;
+    bian[m].l=dd[3][4];
+    // m++;
+    // bian[m].a=4;bian[m].b=5;
+    // bian[m].l=dd[4][5];
+    for (i=9;i<=n;i++)
+    {
+      m++;
+      bian[m].a=8;bian[m].b=i;
+      bian[m].l=dd[i][8];
+      m++;
+      bian[m].a=4;bian[m].b=i;
+      bian[m].l=dd[i][4];
+    }
     //相交预处理
     memset(xj,0,sizeof(xj));
     for (i=1;i<=m;i++)
@@ -314,8 +339,9 @@ void dfs0(int x)
           xj[i][j]=xj[j][i]=true;
       }
     //搜索初始化并搜索
-    dm=dd[3][4]+dd[1][8];
-    mm=rsc;
+    //dm=dd[3][4]+dd[1][8];
+    dm=0;
+    mm=min(rsc,mmm);
     zc=0;
     memset(ji,0,sizeof(ji));
     dfs(1);
@@ -332,21 +358,21 @@ void dfs0(int x)
   if (ispnt[x])
   {
     dian[8+x]=fixp[x];
-    dfs0(x+1);
+    dfs0(x+1,ls);
     return;
   }
-  for (int i=1;i<=fks*fks;i++)
+  for (int i=ls+1;i<=fks*fks;i++)
   {
     dian[8+x]=subr[x][i].mid();
     shixuan[x]=i;
-    dfs0(x+1);
+    dfs0(x+1,i);
   }
 }
 
 int main()
 {
-  ispnt[3]=true;
-  freopen("park11.in","r",stdin);
+  //ispnt[3]=true;
+  freopen("park00.in","r",stdin);
   for (i=1;i<=8;i++)
     dian[i].input();
   cin>>mk;
@@ -381,12 +407,24 @@ int main()
   md[5][4]=md[4][5];
   md[3][4]=min(md[3][4],90.0);
   md[4][3]=md[3][4];
-  md[3][4]=md[4][3]=dst(dian[3],dian[4]);
-  md[1][8]=md[8][1]=dst(dian[1],dian[8]);
-  rsc=612;
+  //md[3][4]=md[4][3]=dst(dian[3],dian[4]);
+  //md[1][8]=md[8][1]=dst(dian[1],dian[8]);
+  rsc=600;
   mmm=INF;
   while (getbac())
   {
+    //产生子区域
+    for (k=1;k<=mk;k++)
+      if (!ispnt[k])
+        for (i=1;i<=fks;i++)
+          for (j=1;j<=fks;j++)
+            subr[k][((i-1)*fks+j-1)+1]=houxuan[k].sub(i,j);
+    mmm=INF;
+    dfs0(1,0);
+    //更新区域
+    for (i=1;i<=mk;i++)
+      if (!ispnt[i])
+        houxuan[i]=subr[i][rsx[i]];
     if (mmm<rsc)
     {
       rsc=mmm;
@@ -398,18 +436,6 @@ int main()
         else
           xd[i]=fixp[i];
     }
-    //产生子区域
-    for (k=1;k<=mk;k++)
-      if (!ispnt[k])
-        for (i=1;i<=fks;i++)
-          for (j=1;j<=fks;j++)
-            subr[k][((i-1)*fks+j-1)+1]=houxuan[k].sub(i,j);
-    mmm=INF;
-    dfs0(1);
-    //更新区域
-    for (i=1;i<=mk;i++)
-      if (!ispnt[i])
-        houxuan[i]=subr[i][rsx[i]];
   }
   // for (k=1;k<=n;k++)
   //   for (i=1;i<=n;i++)
